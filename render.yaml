@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ph-payroll-mcp
+    runtime: ruby
+    plan: free
+    buildCommand: bundle install
+    startCommand: bundle exec puma -p $PORT -e production
+    healthCheckPath: /health
+    envVars:
+      - key: RACK_ENV
+        value: production
