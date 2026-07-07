@@ -1,0 +1,24 @@
+# Bundler
+/.bundle/
+/vendor/bundle/
+/vendor/ruby/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs & temp
+*.log
+/tmp/
+/log/
+
+# RSpec / test artifacts
+/coverage/
+.rspec_status
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
