@@ -5,6 +5,7 @@ require "rack/builder"
 require "rack/test"
 require "json"
 require_relative "../app/payroll"
+require_relative "../app/mcp/tools"
 
 # Build the full production-shaped Rack app from config.ru (CORS + MCP transport
 # + Sinatra), so specs exercise the real middleware stack, not a stub.

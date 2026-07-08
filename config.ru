@@ -5,6 +5,7 @@ require "rack/cors"
 require "fast_mcp"
 require_relative "app"
 require_relative "app/payroll"
+require_relative "app/mcp/tools"
 require_relative "lib/normalize_response_headers"
 
 # Fail fast at boot if any rate table is malformed (missing citation, bad shape).
@@ -45,7 +46,7 @@ mcp = FastMcp.rack_middleware(
   localhost_only: false,
   allowed_origins: [/.*/]
 ) do |server|
-  # Tools registered in later milestones (M3). None yet — tools/list returns [].
+  Tools::ALL.each { |tool| server.register_tool(tool) }
 end
 
 run mcp
