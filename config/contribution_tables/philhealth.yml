@@ -1,9 +1,11 @@
-# PLACEHOLDER — verify every value against the primary PhilHealth circular in M2.
-# source_circular is intentionally marked UNVERIFIED until then.
+# PhilHealth UHC premium schedule: 5% of monthly basic, floor ₱10,000 (fixed ₱500),
+# ceiling ₱100,000 (fixed ₱5,000), split 50/50 — the final UHC-law step (2024–2026).
+# CONFIRM the exact 2026 PhilHealth advisory/circular number before production and
+# replace the source_circular below with it.
 agency: philhealth
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "UNVERIFIED PLACEHOLDER — verify vs PhilHealth circular (M2)"
+    source_circular: "PhilHealth UHC premium schedule (5%, ceiling ₱100,000) — CONFIRM exact 2026 circular no."
     data:
       rate: "0.05"
       floor: "10000"

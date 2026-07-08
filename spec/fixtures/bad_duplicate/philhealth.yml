@@ -1,11 +1,16 @@
 # Test fixture — two tables with the SAME effective_date for one agency (invalid).
+# Both are otherwise schema-valid so the duplicate-date check is what fires.
 agency: philhealth
 tables:
   - effective_date: "2026-01-01"
     source_circular: "TEST A"
     data:
       rate: "0.05"
+      floor: "10000"
+      ceiling: "100000"
   - effective_date: "2026-01-01"
     source_circular: "TEST B"
     data:
       rate: "0.06"
+      floor: "10000"
+      ceiling: "100000"

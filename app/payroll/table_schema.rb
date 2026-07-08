@@ -14,7 +14,14 @@ module Payroll
   module TableSchema
     class Invalid < Payroll::Error; end
 
-    KNOWN_AGENCIES = %w[sss philhealth pagibig withholding_tax].freeze
+    KNOWN_AGENCIES = %w[sss philhealth pagibig withholding_tax thirteenth_month].freeze
+
+    # Per-agency required data keys. Each M2 calculator ticket adds its agency's
+    # keys as it lands, so a table missing a rate/threshold fails at boot AND in CI.
+    REQUIRED_KEYS = {
+      "philhealth" => %w[rate floor ceiling],
+      "pagibig" => %w[low_rate_ee rate_ee rate_er low_threshold ceiling]
+    }.freeze
 
     def self.validate!(table)
       loc = "#{table.agency} #{table.effective_date}"
@@ -38,6 +45,9 @@ module Payroll
           raise Invalid, "#{loc}: value for #{key.inspect} is not numeric: #{value.inspect}"
         end
       end
+
+      missing = (REQUIRED_KEYS[table.agency] || []).reject { |k| table.data.key?(k) }
+      raise Invalid, "#{loc}: missing required keys: #{missing.join(', ')}" unless missing.empty?
 
       table
     end

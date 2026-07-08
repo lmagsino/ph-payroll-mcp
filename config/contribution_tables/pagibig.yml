@@ -1,8 +1,10 @@
-# PLACEHOLDER — verify every value against the primary HDMF (Pag-IBIG) circular in M2.
+# Pag-IBIG (HDMF): employee 1% (comp ≤ ₱1,500) / 2% (above), employer 2%, monthly
+# comp ceiling ₱10,000 → max ₱200 EE / ₱200 ER. Per HDMF Circular No. 460 (Feb 2024).
+# CONFIRM this is still the schedule in effect for 2026.
 agency: pagibig
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "UNVERIFIED PLACEHOLDER — verify vs HDMF Circular (M2)"
+    source_circular: "HDMF Circular No. 460 (Feb 2024) — 2% share, ₱10,000 ceiling — CONFIRM in effect for 2026"
     data:
       low_rate_ee: "0.01"
       rate_ee: "0.02"
