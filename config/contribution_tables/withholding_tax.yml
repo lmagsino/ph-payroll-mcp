@@ -1,11 +1,17 @@
-# PLACEHOLDER — verify against BIR's period-based Revised Withholding Tax Table in M2.
-# The monthly bracket rows are filled and independently verified in M2 (per D8:
-# period-based RWT, NOT the annual TRAIN table). This seed carries an empty monthly
-# bracket set so the table loads with a valid structure.
+# BIR period-based Revised Withholding Tax Table — MONTHLY column (eng-review D8).
+# BEST-EFFORT: these are the widely-published TRAIN Phase-2 (2023+) monthly RWT rows.
+# CONFIRM against the current BIR table before production and record the RR/circular no.
+# tax = base + rate * (monthly_taxable_income - over).
 agency: withholding_tax
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "UNVERIFIED PLACEHOLDER — verify vs BIR RWT table (M2)"
+    source_circular: "BIR Revised Withholding Tax Table, monthly (TRAIN Phase 2) — CONFIRM current RR no."
     data:
       monthly:
-        brackets: []
+        brackets:
+          - { over: "0",      base: "0",         rate: "0"    }
+          - { over: "20833",  base: "0",         rate: "0.15" }
+          - { over: "33333",  base: "1875",      rate: "0.20" }
+          - { over: "66667",  base: "8541.80",   rate: "0.25" }
+          - { over: "166667", base: "33541.80",  rate: "0.30" }
+          - { over: "666667", base: "183541.80", rate: "0.35" }

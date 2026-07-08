@@ -1,14 +1,23 @@
-# PLACEHOLDER — verify every value against the primary SSS circular in M2.
-# The full MSC bracket schedule + regular/WISP split are modeled in M2 (ticket for
-# SssCalculator); this seed only carries the scalar thresholds so the table loads.
+# SSS contribution schedule. BEST-EFFORT numbers, flagged CONFIRM — verify the full
+# MSC bracket schedule, the 2026 total rate, the WISP mechanics, and the EC threshold
+# against the primary SSS circular, then record the circular number below.
+#   - rate_total 15% (ER 10% / EE 5%) is the 2025-scheduled rate — CONFIRM for 2026.
+#   - msc_step models uniform ₱500 brackets; CONFIRM the real (partly irregular) ranges.
+#   - MSC floor ₱5,000 / ceiling ₱35,000; OFW floor ₱8,000; WISP above MSC ₱20,000.
+#   - EC: ₱10 below MSC ₱15,000, ₱30 at/above — CONFIRM exact boundary.
 agency: sss
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "UNVERIFIED PLACEHOLDER — verify vs SSS circular (M2)"
+    source_circular: "SSS contribution schedule (15%, MSC 5k–35k, WISP >20k) — CONFIRM exact circular no. + schedule"
     data:
       msc_floor: "5000"
       msc_ceiling: "35000"
+      msc_step: "500"
+      ofw_msc_floor: "8000"
       wisp_threshold: "20000"
+      rate_total: "0.15"
+      rate_employer: "0.10"
+      rate_employee: "0.05"
       ec_low: "10"
       ec_high: "30"
       ec_threshold: "15000"

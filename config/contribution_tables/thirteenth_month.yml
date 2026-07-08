@@ -1,0 +1,8 @@
+# 13th-month pay tax-exempt threshold. BEST-EFFORT ₱90,000 — CONFIRM the current
+# figure and effective date against BIR guidance (it has changed historically).
+agency: thirteenth_month
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "BIR 13th-month tax-exempt threshold (₱90,000) — CONFIRM current figure"
+    data:
+      exempt_threshold: "90000"

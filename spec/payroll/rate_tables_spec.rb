@@ -58,7 +58,7 @@ RSpec.describe Payroll::RateTables do
     it "loads and validates every shipped table" do
       tables = described_class.reload!
       agencies = tables.map(&:agency).uniq
-      expect(agencies).to contain_exactly("pagibig", "philhealth", "sss", "withholding_tax")
+      expect(agencies).to contain_exactly("pagibig", "philhealth", "sss", "thirteenth_month", "withholding_tax")
     end
   end
 end

@@ -20,7 +20,11 @@ module Payroll
     # keys as it lands, so a table missing a rate/threshold fails at boot AND in CI.
     REQUIRED_KEYS = {
       "philhealth" => %w[rate floor ceiling],
-      "pagibig" => %w[low_rate_ee rate_ee rate_er low_threshold ceiling]
+      "pagibig" => %w[low_rate_ee rate_ee rate_er low_threshold ceiling],
+      "sss" => %w[msc_floor msc_ceiling msc_step ofw_msc_floor wisp_threshold
+                  rate_total rate_employer rate_employee ec_low ec_high ec_threshold],
+      "withholding_tax" => %w[monthly],
+      "thirteenth_month" => %w[exempt_threshold]
     }.freeze
 
     def self.validate!(table)
