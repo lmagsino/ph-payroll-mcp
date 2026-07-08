@@ -1,0 +1,11 @@
+# PLACEHOLDER — verify against BIR's period-based Revised Withholding Tax Table in M2.
+# The monthly bracket rows are filled and independently verified in M2 (per D8:
+# period-based RWT, NOT the annual TRAIN table). This seed carries an empty monthly
+# bracket set so the table loads with a valid structure.
+agency: withholding_tax
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "UNVERIFIED PLACEHOLDER — verify vs BIR RWT table (M2)"
+    data:
+      monthly:
+        brackets: []

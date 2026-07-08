@@ -1,0 +1,15 @@
+# Test fixture — two effective dates to exercise mid-year effective-date selection.
+agency: philhealth
+tables:
+  - effective_date: "2025-01-01"
+    source_circular: "TEST Circular 2025"
+    data:
+      rate: "0.045"
+      floor: "10000"
+      ceiling: "90000"
+  - effective_date: "2026-07-01"
+    source_circular: "TEST Circular 2026 (mid-year)"
+    data:
+      rate: "0.05"
+      floor: "10000"
+      ceiling: "100000"

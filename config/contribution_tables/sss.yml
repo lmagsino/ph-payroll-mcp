@@ -1,0 +1,14 @@
+# PLACEHOLDER — verify every value against the primary SSS circular in M2.
+# The full MSC bracket schedule + regular/WISP split are modeled in M2 (ticket for
+# SssCalculator); this seed only carries the scalar thresholds so the table loads.
+agency: sss
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "UNVERIFIED PLACEHOLDER — verify vs SSS circular (M2)"
+    data:
+      msc_floor: "5000"
+      msc_ceiling: "35000"
+      wisp_threshold: "20000"
+      ec_low: "10"
+      ec_high: "30"
+      ec_threshold: "15000"

@@ -1,0 +1,11 @@
+# Test fixture — two tables with the SAME effective_date for one agency (invalid).
+agency: philhealth
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "TEST A"
+    data:
+      rate: "0.05"
+  - effective_date: "2026-01-01"
+    source_circular: "TEST B"
+    data:
+      rate: "0.06"

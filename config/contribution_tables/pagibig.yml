@@ -1,0 +1,11 @@
+# PLACEHOLDER — verify every value against the primary HDMF (Pag-IBIG) circular in M2.
+agency: pagibig
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "UNVERIFIED PLACEHOLDER — verify vs HDMF Circular (M2)"
+    data:
+      low_rate_ee: "0.01"
+      rate_ee: "0.02"
+      rate_er: "0.02"
+      low_threshold: "1500"
+      ceiling: "10000"

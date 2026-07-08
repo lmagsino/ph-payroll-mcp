@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Standalone rate-table validator for CI (and manual use). Loads and schema-checks
+# every YAML table; exits non-zero on any problem so a bad data PR never merges.
+# Same validation runs at boot via RateTables.load!.
+
+require_relative "../app/payroll"
+
+begin
+  tables = Payroll::RateTables.reload!
+  puts "OK: #{tables.length} rate table(s) valid"
+  tables.each { |t| puts "  #{t.agency.ljust(16)} @ #{t.effective_date}  (#{t.source_circular})" }
+rescue Payroll::Error => e
+  warn "INVALID: #{e.message}"
+  exit 1
+end

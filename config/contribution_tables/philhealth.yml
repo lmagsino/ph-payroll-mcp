@@ -1,0 +1,10 @@
+# PLACEHOLDER — verify every value against the primary PhilHealth circular in M2.
+# source_circular is intentionally marked UNVERIFIED until then.
+agency: philhealth
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "UNVERIFIED PLACEHOLDER — verify vs PhilHealth circular (M2)"
+    data:
+      rate: "0.05"
+      floor: "10000"
+      ceiling: "100000"
