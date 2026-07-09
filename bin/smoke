@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# End-to-end smoke test: boots the real Puma server and drives it exactly like an MCP
+# client over the HTTP+SSE transport — open the SSE stream, read the endpoint event,
+# POST initialize + tools/list + a compute_net_pay tools/call, and read the results back
+# off the SSE stream. Asserts 7 tools and a net_pay figure. Exit 0 = PASS.
+#
+# This is the "a client connects and it actually works" guarantee. rack-test can't cover
+# it (no rack hijack for SSE), so it lives here as a runnable gate rather than in RSpec.
+#
+#   bin/smoke   # boots on port 9310, ~5s
+
+require "net/http"
+require "json"
+require "timeout"
+
+PORT = 9310
+HOST = "127.0.0.1"
+ROOT = File.expand_path("..", __dir__)
+
+def health_ok?
+  Net::HTTP.get_response(URI("http://#{HOST}:#{PORT}/health")).code == "200"
+rescue StandardError
+  false
+end
+
+def post(id, method, params)
+  http = Net::HTTP.new(HOST, PORT)
+  req = Net::HTTP::Post.new("/mcp/messages", "Content-Type" => "application/json")
+  req.body = JSON.generate(jsonrpc: "2.0", id: id, method: method, params: params)
+  http.request(req)
+end
+
+pid = Process.spawn(
+  { "RACK_ENV" => "production" },
+  "bundle", "exec", "puma", "-p", PORT.to_s, "-e", "production",
+  chdir: ROOT, out: "/tmp/phmcp-smoke.log", err: "/tmp/phmcp-smoke.log"
+)
+
+begin
+  # 1. Wait for boot.
+  deadline = Time.now + 20
+  sleep 0.3 until health_ok? || Time.now > deadline
+  raise "server did not become healthy (see /tmp/phmcp-smoke.log)" unless health_ok?
+
+  # 2. Open the SSE stream and collect JSON-RPC responses off it.
+  responses = Queue.new
+  sse = Thread.new do
+    Net::HTTP.start(HOST, PORT, read_timeout: 20) do |http|
+      http.request(Net::HTTP::Get.new("/mcp/sse")) do |resp|
+        buffer = +""
+        resp.read_body do |chunk|
+          buffer << chunk
+          while (idx = buffer.index("\n\n"))
+            block = buffer.slice!(0..idx + 1)
+            block.each_line do |line|
+              next unless line.start_with?("data:")
+
+              data = line.sub(/^data:\s*/, "").strip
+              begin
+                msg = JSON.parse(data)
+                responses << msg if msg.is_a?(Hash) && msg["jsonrpc"]
+              rescue JSON::ParserError
+                # endpoint event / keep-alive comment — ignore
+              end
+            end
+          end
+        end
+      end
+    rescue StandardError
+      # stream closed on teardown
+    end
+  end
+
+  sleep 1 # let the SSE client register before posting
+
+  # 3. Drive the protocol.
+  post(0, "initialize",
+       protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "smoke", version: "1" })
+  post(1, "tools/list", {})
+  post(2, "tools/call",
+       name: "compute_net_pay", arguments: { gross_monthly_salary: 30_000, member_type: "employed" })
+
+  # 4. Collect the tools/list + tools/call responses (by id) with a timeout.
+  got = {}
+  Timeout.timeout(15) do
+    until got.key?(1) && got.key?(2)
+      msg = responses.pop
+      got[msg["id"]] = msg
+    end
+  end
+
+  tools = got[1].dig("result", "tools") || []
+  text = got[2].dig("result", "content")&.first&.dig("text")
+  netpay = text ? JSON.parse(text) : {}
+
+  puts "tools/list      : #{tools.length} tools (#{tools.map { |t| t['name'] }.join(', ')})"
+  puts "compute_net_pay : net_pay=#{netpay['net_pay']}, sources=#{(netpay['sources'] || {}).keys.join('/')}"
+
+  ok = tools.length == 7 && netpay["net_pay"]
+  puts(ok ? "\nSMOKE PASS ✅" : "\nSMOKE FAIL ❌")
+  sse.kill
+  exit(ok ? 0 : 1)
+ensure
+  begin
+    Process.kill("TERM", pid)
+    Process.wait(pid)
+  rescue Errno::ESRCH, Errno::ECHILD
+    # already gone
+  end
+end

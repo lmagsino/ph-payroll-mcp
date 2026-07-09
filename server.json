@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.lmagsino/ph-payroll-mcp",
+  "description": "Accurate, current-year Philippine statutory payroll math (SSS, PhilHealth, Pag-IBIG, BIR withholding, 13th-month, net pay) for any MCP client, with every number cited to its source circular.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/lmagsino/ph-payroll-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://ph-payroll-mcp.onrender.com/mcp/sse"
+    }
+  ]
+}
