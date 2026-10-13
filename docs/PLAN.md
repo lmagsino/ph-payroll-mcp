@@ -228,3 +228,9 @@ GSIS/government employees.
 - **RWT extra pay-period columns (daily/weekly/semi-monthly):** v1 ships monthly;
   semi-monthly is very common in PH payroll. Data + golden-value tests per period,
   not a redesign (calculator already takes a pay-period param). Depends on: D8 monthly landing first.
+## 9. v0.1.0 ship plan (2026-10-14)
+
+Decisions re-grilled after M4: the Render URL was never connected and Claude's connector
+docs now deprecate HTTP+SSE. The approved plan — official `mcp` gem on Streamable HTTP,
+local-first with Render optional, verified citations, `examples/`, tag on local proof —
+lives in `tasks/plan.md` with the task list in `tasks/todo.md`.
