@@ -118,6 +118,10 @@ RSpec.describe PhPayroll::PremiumPayCalculator do
       expect(pay(date: "2026-11-01", rest_day: true)[:regular_pay]).to eq(BigDecimal("1200.00")) # 1.50
     end
 
+    it "needs a date or a day type" do
+      expect { pay(rest_day: true) }.to raise_error(PhPayroll::InvalidInput, /give a date or a day_type/)
+    end
+
     it "rejects a date together with a day type" do
       expect { pay(date: "2026-04-09", day_type: "ordinary") }
         .to raise_error(PhPayroll::InvalidInput, /either date or day_type/)

@@ -27,7 +27,11 @@ module PhPayroll
     # Pass `date:` instead of `day_type:` to have the holiday calendar decide the day
     # type; the premium table in effect on that date is used too.
     def call(date: nil, **inputs)
-      return super(**inputs) if date.nil?
+      if date.nil?
+        raise InvalidInput, "give a date or a day_type" unless inputs.key?(:day_type)
+
+        return super(**inputs)
+      end
 
       if inputs.key?(:day_type) || inputs.key?(:as_of)
         raise InvalidInput, "give either date or day_type (and as_of), not both"
