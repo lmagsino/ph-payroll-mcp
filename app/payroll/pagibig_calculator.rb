@@ -11,8 +11,8 @@ module Payroll
   #   ee_rate = salary <= low_threshold ? low_rate_ee : rate_ee
   #   employee = base * ee_rate ;  employer = base * rate_er
   #
-  # The low/high rate keys on the ACTUAL monthly comp, not the capped base
-  # (confirm against the HDMF circular).
+  # Circular 460 keys the 1% rate on the fund salary ("₱1,500 and below"). Keying on
+  # the actual salary is equivalent only while the ceiling stays above low_threshold.
   class PagibigCalculator < BaseCalculator
     agency "pagibig"
 
