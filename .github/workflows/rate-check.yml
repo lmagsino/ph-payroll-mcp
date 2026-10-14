@@ -1,0 +1,40 @@
+name: Yearly rate check
+
+# Opens the "Re-verify <year> rates" issue each 2 January (docs/MAINTAINING.md).
+# workflow_dispatch exists so the issue can be opened by hand, or the job tested.
+on:
+  schedule:
+    - cron: "0 1 2 1 *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  open-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open the re-verification issue unless one is already open
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          year=$(date -u +%Y)
+          title="Re-verify ${year} rates"
+          if gh issue list --state open --search "\"${title}\" in:title" --json title --jq '.[].title' | grep -qx "${title}"; then
+            echo "already open: ${title}"; exit 0
+          fi
+          cat > body.md <<BODY
+          Yearly check that every rate table still matches its agency issuance for ${year}.
+          Steps: [docs/MAINTAINING.md](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/docs/MAINTAINING.md) and
+          [VERIFICATION.md → How to re-verify](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/main/docs/VERIFICATION.md#how-to-re-verify-next-year).
+
+          - [ ] SSS: schedule circular and EC bands (sss.gov.ph circulars)
+          - [ ] PhilHealth: premium rate, floor, ceiling (circulars and advisories)
+          - [ ] Pag-IBIG: rates and fund-salary ceiling; retry HDMF's own Circular 460 copy
+          - [ ] BIR: monthly withholding table and the 13th-month ceiling (Revenue Regulations)
+          - [ ] VERIFICATION.md check dates updated, primary/secondary re-marked honestly
+          - [ ] gem/CHANGELOG.md Rates entry, even if nothing changed
+          - [ ] Gem patch released if a table changed (ph_payroll/v* tag)
+          BODY
+          gh issue create --title "${title}" --body-file body.md
