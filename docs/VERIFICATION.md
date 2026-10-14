@@ -1,6 +1,6 @@
 # Rate verification
 
-Every value in `config/contribution_tables/*.yml`, the figure it holds, and where that
+Every value in `gem/data/contribution_tables/*.yml`, the figure it holds, and where that
 figure was checked. All rows were checked on **2026-10-14** against the tables in force
 for the `2026-01-01` effective date.
 
@@ -9,7 +9,7 @@ the figure reached us through someone else's restatement. That can be another
 government body quoting the circular, or a private summary. A secondary row's
 `source_circular` says "per secondary sources".
 
-## SSS: `config/contribution_tables/sss.yml`
+## SSS: `gem/data/contribution_tables/sss.yml`
 
 Sources:
 
@@ -58,7 +58,7 @@ MSC 35,000 gives a total of 5,280.00. MSC 14,000 gives ER 1,410.00. The OFW figu
 25,000 that is 3,000 + 750 MPF + 30 EC = **₱3,780**, which the calculator returns.
 Voluntary members (2024-009) and OFW members (2024-010) pay no EC.
 
-## PhilHealth: `config/contribution_tables/philhealth.yml`
+## PhilHealth: `gem/data/contribution_tables/philhealth.yml`
 
 Sources:
 
@@ -84,7 +84,7 @@ and that is this project's own convention.
 The circular's table ends at "2024 to 2025", and PhilHealth has issued no CY 2026
 schedule. The 2026 rate rests on Advisory 2026-0042, which still applies 5%.
 
-## Pag-IBIG (HDMF): `config/contribution_tables/pagibig.yml`
+## Pag-IBIG (HDMF): `gem/data/contribution_tables/pagibig.yml`
 
 Sources:
 
@@ -110,7 +110,7 @@ Sources:
 No later HDMF circular changing the MFS or the rates was found. Current guides
 still cite Circular 460.
 
-## BIR withholding tax: `config/contribution_tables/withholding_tax.yml`
+## BIR withholding tax: `gem/data/contribution_tables/withholding_tax.yml`
 
 Sources:
 
@@ -134,7 +134,7 @@ Checked against the MONTHLY row of Annex E.
 
 All six rows match digit for digit. No 2025 or 2026 RR replacing Annex E was found.
 
-## BIR 13th-month exemption: `config/contribution_tables/thirteenth_month.yml`
+## BIR 13th-month exemption: `gem/data/contribution_tables/thirteenth_month.yml`
 
 Source: **RR No. 11-2018, Sec. 6**, amending RR 2-98 Sec. 2.78.1(B)(11), *Thirteenth
 month pay and other benefits*:

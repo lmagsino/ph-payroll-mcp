@@ -130,7 +130,7 @@ client. `GET /mcp` returns 405; there is no SSE endpoint.
 ## Data sources
 
 Contribution tables are versioned by effective date and stored in
-`config/contribution_tables/`, each carrying its `effective_date` and `source_circular`.
+`gem/data/contribution_tables/`, each carrying its `effective_date` and `source_circular`.
 Next year's update is a data PR, not a code change. Every value is checked against the
 agency's issuance, and [docs/VERIFICATION.md](docs/VERIFICATION.md) records the source
 URL, circular number, check date, and whether the source is primary or secondary.

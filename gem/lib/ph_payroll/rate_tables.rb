@@ -21,7 +21,7 @@ module PhPayroll
     class MissingRateTable < PhPayroll::Error; end
     class ConfigurationError < PhPayroll::Error; end
 
-    DEFAULT_DIR = File.expand_path("../../../config/contribution_tables", __dir__)
+    DEFAULT_DIR = File.expand_path("../../data/contribution_tables", __dir__)
 
     class << self
       # Load, validate, sort, and freeze all tables. Raises on empty dir, duplicate
