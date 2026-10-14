@@ -25,6 +25,7 @@ jobs:
   gem:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         ruby: ["3.2", "3.3", "3.4"]
     defaults:
