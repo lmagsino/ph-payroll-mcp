@@ -5,6 +5,8 @@ All notable changes to this project are documented here. Format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-14
+
 ### Added
 - **MCP server** exposing seven tools over Streamable HTTP at `POST /mcp` (official MCP
   Ruby SDK, stateless, JSON responses): `compute_sss_contribution`,
@@ -17,6 +19,11 @@ All notable changes to this project are documented here. Format follows
   schema-validated at boot and in CI (`bin/validate_tables`).
 - `bin/smoke` end-to-end check (initialize + tools/list + compute_net_pay over `POST /mcp`).
 - Sinatra/Rack app with `/health`; Render deploy config; GitHub Actions CI.
+- `examples/`: a captured request and response for every tool, a rendered ₱30,000
+  payslip, and a Claude Code session against a local server; `bin/capture_examples`
+  regenerates the tool examples.
+- `docs/VERIFICATION.md`: the source, circular number, check date and primary/secondary
+  status of every rate value.
 
 ### Changed
 - Tool input schemas are hand-written JSON Schema: money fields are `type: number`,
@@ -44,3 +51,6 @@ All notable changes to this project are documented here. Format follows
 - The ₱90,000 13th-month exemption is shared with other benefits; the 13th-month tool
   applies all of it to the 13th-month pay.
 - Withholding tax supports the monthly pay period only; other periods are a data TODO.
+
+[Unreleased]: https://github.com/lmagsino/ph-payroll-mcp/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/lmagsino/ph-payroll-mcp/releases/tag/v0.1.0
