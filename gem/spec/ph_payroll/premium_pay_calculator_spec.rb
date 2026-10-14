@@ -105,6 +105,29 @@ RSpec.describe PhPayroll::PremiumPayCalculator do
     end
   end
 
+  describe "by date" do
+    it "prices a calendar holiday as that holiday (Araw ng Kagitingan, 9 Apr 2026)" do
+      expect(pay(date: "2026-04-09")[:regular_pay]).to eq(BigDecimal("1600.00"))
+    end
+
+    it "prices an unlisted date as an ordinary day" do
+      expect(pay(date: "2026-04-08", overtime_hours: 1)[:overtime_pay]).to eq(BigDecimal("125.00"))
+    end
+
+    it "still applies the rest-day flag (All Saints' Day falls on Sunday 1 Nov 2026)" do
+      expect(pay(date: "2026-11-01", rest_day: true)[:regular_pay]).to eq(BigDecimal("1200.00")) # 1.50
+    end
+
+    it "rejects a date together with a day type" do
+      expect { pay(date: "2026-04-09", day_type: "ordinary") }
+        .to raise_error(PhPayroll::InvalidInput, /either date or day_type/)
+    end
+
+    it "refuses a date with no calendar" do
+      expect { pay(date: "2027-04-09") }.to raise_error(PhPayroll::RateTables::MissingRateTable)
+    end
+  end
+
   describe "invalid input" do
     it "rejects an unknown day type" do
       expect { pay(day_type: "holiday") }.to raise_error(PhPayroll::InvalidInput, /day_type must be one of/)

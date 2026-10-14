@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "base_calculator"
+require_relative "holiday_calendar"
 require_relative "table_schema"
 
 module PhPayroll
@@ -22,6 +23,19 @@ module PhPayroll
   # the calculator does not.
   class PremiumPayCalculator < BaseCalculator
     agency "premium_pay"
+
+    # Pass `date:` instead of `day_type:` to have the holiday calendar decide the day
+    # type; the premium table in effect on that date is used too.
+    def call(date: nil, **inputs)
+      return super(**inputs) if date.nil?
+
+      if inputs.key?(:day_type) || inputs.key?(:as_of)
+        raise InvalidInput, "give either date or day_type (and as_of), not both"
+      end
+
+      day = HolidayCalendar.day(date)
+      super(as_of: day.date, day_type: day.day_type, **inputs)
+    end
 
     private
 
