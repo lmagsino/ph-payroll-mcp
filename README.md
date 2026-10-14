@@ -42,20 +42,21 @@ URL: `https://ph-payroll-mcp.onrender.com/mcp` — no auth required.
 bundle install
 bundle exec rackup           # serves on http://localhost:9292
 npx @modelcontextprotocol/inspector
-# point Inspector at http://localhost:9292/mcp
+# Transport Type: Streamable HTTP, URL: http://localhost:9292/mcp, then Connect → Tools
 
-bin/smoke                    # end-to-end check: SSE handshake + tools/list + a net-pay call
+bin/smoke                    # end-to-end check: initialize + tools/list + a net-pay call
 bin/validate_tables          # validate the rate tables
 bundle exec rspec            # unit + adapter tests
 ```
 
 ## Transport
 
-This server speaks the MCP **HTTP+SSE** transport (protocol `2024-11-05`) via
-[`fast-mcp`](https://github.com/yjacquin/fast-mcp): SSE stream at `/mcp/sse`, messages at
-`/mcp/messages`. It works with SSE-capable MCP clients (including Claude custom
-connectors). Migration to Streamable HTTP (2025 spec) is tracked for broader client
-support.
+This server speaks MCP **Streamable HTTP** through the official
+[MCP Ruby SDK](https://github.com/modelcontextprotocol/ruby-sdk): one endpoint,
+`POST /mcp`, negotiating protocol `2025-03-26` through `2026-07-28` with the client. It
+runs stateless (no `Mcp-Session-Id`, nothing kept between requests) and answers every
+request with a single JSON body, since no tool streams progress or calls back to the
+client. `GET /mcp` returns 405; there is no SSE endpoint.
 
 ## Deploy
 
@@ -82,7 +83,7 @@ before relying on it for actual remittance or filing.
 
 ## Stack
 
-Ruby + Sinatra/Rack + [fast-mcp](https://github.com/yjacquin/fast-mcp). Deployed on Render.
+Ruby + Sinatra/Rack + the official [MCP Ruby SDK](https://github.com/modelcontextprotocol/ruby-sdk). Deployed on Render.
 
 ## Author
 
