@@ -56,22 +56,24 @@ returns net ₱26,542.45 with four citations; server specs, smoke, and examples 
 The rule people get wrong: regular holiday vs special non-working day, and how a rest
 day, overtime and night work stack on top.
 
-- [ ] T7: Research + VERIFICATION rows: Labor Code Arts. 86 (night differential), 87
+- [x] T7: Research + VERIFICATION rows: Labor Code Arts. 86 (night differential), 87
       (overtime), 93 (rest day / special day), 94 (regular holiday); DOLE Handbook on
       Workers' Statutory Monetary Benefits; the current DOLE holiday-pay advisory; the
       2026 holiday proclamation. Primary sources only, or flagged.
-- [ ] T8: `premium_pay.yml`: multipliers per day type (ordinary, rest day, special
+- [x] T8: `premium_pay.yml`: multipliers per day type (ordinary, rest day, special
       non-working, special on rest day, regular holiday, regular on rest day, double
       holiday, double on rest day), the overtime premium on each, night differential,
       and the unworked-day rule for each type
-- [ ] T9: `holidays/2026.yml`: dated calendar from the proclamation, each date typed
-      (regular / special non-working / special working), cited
-- [ ] T10: `PremiumPayCalculator`: inputs daily rate, day type *or* date (looked up in
+- [x] T9: `holidays.yml` 2026 table: dated calendar from the proclamations, each date
+      typed (regular / special non-working / special working), cited
+- [x] T10: `PremiumPayCalculator`: inputs daily rate, day type *or* date (looked up in
       the calendar), rest-day flag, worked?, hours, overtime hours, night hours →
       itemized pay + multiplier used + citation. Golden values hand-derived from the
       DOLE handbook's worked examples, never from the YAML
-- [ ] T11: MCP tools `compute_holiday_pay` and `list_holidays(year)`; examples captured
-- [ ] T12: README tools table, CHANGELOG, VERIFICATION.md
+- [x] T11: MCP tools `compute_holiday_pay` and `list_holidays(year)`
+- [ ] T11b: Run the suites and `bin/capture_examples` to regenerate `examples/`
+      (held while local test runs are paused; CI runs the suites on push)
+- [x] T12: README tools table, CHANGELOG, VERIFICATION.md
 
 **Acceptance:** each of the eight day types, worked and unworked, with and without
 overtime and night hours, matches a hand derivation in the spec; an unknown 2027 date
@@ -108,9 +110,9 @@ withholding tax needs year-to-date payroll the tool does not have.
       `bin/capture_examples` → CHANGELOG `### Rates` entry → gem patch release)
 - [x] T21: CHANGELOG convention: a `### Rates` section in every release that touches a
       table, naming the circular and the effective date
-- [x] T22: Scheduled workflow that opens a "Re-verify <year> rates" issue each January,
-      with the runbook checklist in the body. The November "Load <year> holiday
-      proclamation" issue is added with R2, when there is a holiday table to load
+- [x] T22: Scheduled workflow that opens a "Re-verify <year> rates" issue each January
+      and a "Load the <next year> holiday calendar" issue each October (the proclamation
+      is usually out by September), each with its checklist in the body
 
 ## Order and dependencies
 
