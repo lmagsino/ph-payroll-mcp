@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*.rb", "data/**/*.yml", "README.md", "CHANGELOG.md", "LICENSE"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "bigdecimal", ">= 3.1"
+  spec.add_dependency "bigdecimal", ">= 3.1", "< 5"
 end
