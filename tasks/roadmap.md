@@ -37,14 +37,15 @@ MCP, listings where MCP users look, and a visible record that the rates stay cur
 
 ### R1: `ph_payroll` gem extraction (server v0.2.0, gem v0.1.0)
 
-- [ ] T1: Scaffold the gem in `gem/` (gemspec, `lib/ph_payroll.rb`, version, README stub)
-- [ ] T2: Rename `Payroll::` → `PhPayroll::`, then move `app/payroll/*` →
+- [x] T1: Scaffold the gem in `gem/` (gemspec, `lib/ph_payroll.rb`, version, README stub)
+- [x] T2: Rename `Payroll::` → `PhPayroll::`, then move `app/payroll/*` →
       `gem/lib/ph_payroll/` (no alias: the server is the only consumer)
-- [ ] T3: Move the rate tables + `TableSchema` into the gem; table path resolves inside the gem
-- [ ] T4: Move the domain specs into `gem/spec`; CI runs both suites
-- [ ] T5: Server depends on the gem via `path:`; tools require `ph_payroll`
-- [ ] T6: Gem README with plain-Ruby usage; `gem build` passes; release workflow on tag
-      (publish needs Leo's rubygems.org account + MFA — he runs the first push)
+- [x] T3: Move the rate tables + `TableSchema` into the gem; table path resolves inside the gem
+- [x] T4: Move the domain specs into `gem/spec`; CI runs both suites
+- [x] T5: Server depends on the gem via `path:`; tools require `ph_payroll`
+- [x] T6: Gem README with plain-Ruby usage; `gem build` passes; release workflow on tag
+- [ ] T6b: First publish — needs Leo's rubygems.org trusted publisher, then push
+      `ph_payroll/v0.1.0` (docs/MAINTAINING.md, "First gem release")
 
 **Acceptance:** `gem install ph_payroll` (local `.gem`) and
 `PhPayroll::NetPayCalculator.new.call(gross_monthly_salary: 30_000, member_type: "employed")`
@@ -103,13 +104,13 @@ withholding tax needs year-to-date payroll the tool does not have.
 
 ### R5: Visible maintenance (ships alongside R1)
 
-- [ ] T20: `docs/MAINTAINING.md`: the rate-update runbook (data PR → VERIFICATION row →
+- [x] T20: `docs/MAINTAINING.md`: the rate-update runbook (data PR → VERIFICATION row →
       `bin/capture_examples` → CHANGELOG `### Rates` entry → gem patch release)
-- [ ] T21: CHANGELOG convention: a `### Rates` section in every release that touches a
+- [x] T21: CHANGELOG convention: a `### Rates` section in every release that touches a
       table, naming the circular and the effective date
-- [ ] T22: Scheduled workflow that opens a "Re-verify <year> rates" issue each January
-      and a "Load <year> holiday proclamation" issue each November, with the runbook
-      checklist in the body
+- [x] T22: Scheduled workflow that opens a "Re-verify <year> rates" issue each January,
+      with the runbook checklist in the body. The November "Load <year> holiday
+      proclamation" issue is added with R2, when there is a holiday table to load
 
 ## Order and dependencies
 
