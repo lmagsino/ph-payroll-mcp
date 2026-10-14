@@ -1,7 +1,7 @@
 # Roadmap: after v0.1.0
 
 **Date:** 2026-10-14
-**Status:** Draft — open questions at the bottom need Leo's call before R1 starts.
+**Status:** Approved 2026-10-14 — all five open questions settled (see Decisions).
 **Goal:** make ph-payroll-mcp the Philippine payroll reference: the computations people
 actually get wrong (holiday and premium pay, final pay), a calculator core usable outside
 MCP, listings where MCP users look, and a visible record that the rates stay current.
@@ -19,9 +19,9 @@ MCP, listings where MCP users look, and a visible record that the rates stay cur
   into a `ph_payroll` gem (name is free on rubygems.org as of 2026-10-14) *before* adding
   calculators, so holiday and final pay are born in the gem instead of moving twice. The
   MCP server becomes a thin consumer of the gem.
-- **Same repo, `gem/` subdirectory** (proposed): one CI, one VERIFICATION.md, one
-  CHANGELOG per artifact; the server's Gemfile points at it with `path:` and the gem
-  publishes from the same tag. See open question 2.
+- **Same repo, `gem/` subdirectory:** one CI, one VERIFICATION.md, one CHANGELOG per
+  artifact; the server's Gemfile points at it with `path:` and the gem publishes from
+  the same tag.
 - **Rules are data, like rates.** Premium-pay multipliers and the holiday calendar are
   YAML tables with `effective_date` + `source_circular`, validated by the same schema
   machinery. A new year's holiday proclamation is a data PR.
@@ -88,14 +88,14 @@ returns `no_rate_table`, not a guess.
 - [ ] T15: MCP tool `compute_final_pay`; payslip-style example; docs
 
 **Scope fence:** gross components and taxability flags only. The annualized final
-withholding tax needs year-to-date payroll the tool does not have (open question 3).
+withholding tax needs year-to-date payroll the tool does not have.
 
 ### R4: Discoverability (ops, mostly Leo's accounts) — no branch
 
 - [ ] T16: Render free tier live (v0.1.0 post-release checklist items 2–3)
 - [ ] T17: Official MCP registry: publish `server.json` with the Render remote (the
-      registry's package types are npm / pypi / oci / nuget / mcpb, not rubygems, so a
-      no-hosting listing would need an OCI image — see open question 4)
+      registry's package types are npm / pypi / oci / nuget / mcpb, not rubygems; an OCI
+      image was considered and declined)
 - [ ] T18: mcp.so, Glama (claim the auto-indexed entry), Smithery, and a PR to
       awesome-mcp-servers
 - [ ] T19: Demo gif (v0.1.0 checklist item 1) — listings convert better with it
@@ -119,16 +119,10 @@ R1 gem ──▶ R2 premium pay ──▶ R3 final pay
 R4 discoverability: independent; T16 (Render) unblocks T17
 ```
 
-## Open questions (need Leo)
+## Decisions (2026-10-14)
 
-1. **Order.** Gem first (recommended: features land once, in their final home) or
-   holiday pay first (faster visible value)?
-2. **Gem location.** `gem/` subdirectory of this repo (recommended) or a separate
-   `lmagsino/ph_payroll` repo?
-3. **Final-pay tax.** Gross components + taxability flags (recommended), or accept YTD
-   inputs and compute the annualized final tax?
-4. **Registry route.** Wait for Render and list the remote (recommended: zero new code),
-   or build and publish an OCI image to GHCR so the listing doesn't depend on hosting?
-5. **Premium-pay input.** Daily rate only (recommended), or also monthly salary with a
-   caller-supplied days-per-year factor (261 / 313 / 365 depend on the employer's
-   setup, so the tool must not default one)?
+1. **Order:** gem first. R1 extracts `ph_payroll`; R2 and R3 are built inside it.
+2. **Gem location:** `gem/` subdirectory of this repo; the server uses it via `path:`.
+3. **Final-pay tax:** gross components + taxability flags, no annualized tax.
+4. **Registry:** wait for Render and list the remote; no OCI image.
+5. **Premium-pay input:** daily rate only; no monthly conversion factor is defaulted.
