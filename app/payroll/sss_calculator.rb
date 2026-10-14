@@ -5,20 +5,17 @@ require_relative "base_calculator"
 module Payroll
   # SSS contribution. Not a linear rate — a stepped Monthly Salary Credit (MSC)
   # schedule, plus the WISP/MPF provident-fund layer on the MSC portion above the
-  # WISP threshold (eng-review D9), plus an employer-only EC contribution.
+  # WISP threshold (eng-review D9), plus a flat EC contribution by MSC band.
   #
-  #   msc          = salary rounded to its MSC bracket, clamped to floor..ceiling
-  #   regular_msc  = min(msc, wisp_threshold)      # regular SS program
-  #   wisp_msc     = max(0, msc - wisp_threshold)  # mandatory provident fund
-  #   employed     → ER/EE split on each portion; EC (employer) flat by MSC band
-  #   self/vol/ofw → member pays the full total rate; no employer share, no EC
+  #   msc           = salary rounded to its MSC bracket, clamped to floor..ceiling
+  #   regular_msc   = min(msc, wisp_threshold)      # regular SS program
+  #   wisp_msc      = max(0, msc - wisp_threshold)  # mandatory provident fund
+  #   employed      → ER/EE split on each portion; the employer pays EC
+  #   self_employed → member pays the full total rate and EC (Circular 2024-008)
+  #   voluntary/ofw → member pays the full total rate; no EC (2024-009 / 2024-010)
   #
   # Rounding to msc_step reproduces every row of Circular 2024-006's table, including
   # "Below 5,250" and "34,750 - Over" (via the clamp).
-  #
-  # Diverges from Circular 2024-008: self-employed members also pay EC themselves
-  # (₱10/₱30 by the same MSC band) on top of the 15%; here they get EC 0. Voluntary
-  # and OFW members pay no EC, which is correct. See docs/VERIFICATION.md.
   class SssCalculator < BaseCalculator
     agency "sss"
 
@@ -40,6 +37,7 @@ module Payroll
       wisp_threshold = table.decimal("wisp_threshold")
       regular_msc = [msc, wisp_threshold].min
       wisp_msc = [msc - wisp_threshold, BigDecimal(0)].max
+      ec_band = msc >= table.decimal("ec_threshold") ? table.decimal("ec_high") : table.decimal("ec_low")
 
       if member_type.to_s == "employed"
         ee = table.decimal("rate_employee")
@@ -48,17 +46,18 @@ module Payroll
         reg_er = round_centavo(regular_msc * er)
         wisp_ee = round_centavo(wisp_msc * ee)
         wisp_er = round_centavo(wisp_msc * er)
-        ec = msc >= table.decimal("ec_threshold") ? table.decimal("ec_high") : table.decimal("ec_low")
+        ec = ec_band
+        employee_share = reg_ee + wisp_ee
+        employer_share = reg_er + wisp_er + ec
       else
-        # Self-employed / voluntary / OFW pay the full total rate themselves.
         total = table.decimal("rate_total")
         reg_ee = round_centavo(regular_msc * total)
         wisp_ee = round_centavo(wisp_msc * total)
-        reg_er = wisp_er = ec = BigDecimal(0)
+        reg_er = wisp_er = BigDecimal(0)
+        ec = member_type.to_s == "self_employed" ? ec_band : BigDecimal(0)
+        employee_share = reg_ee + wisp_ee + ec
+        employer_share = BigDecimal(0)
       end
-
-      employee_share = reg_ee + wisp_ee
-      employer_share = reg_er + wisp_er + ec
 
       {
         msc: msc,
