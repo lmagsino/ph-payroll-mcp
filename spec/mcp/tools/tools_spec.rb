@@ -55,6 +55,11 @@ RSpec.describe "MCP tool adapters" do
       expect(b["source_circular"]).to be_a(String)
     end
 
+    it "returns the premium-pay multipliers" do
+      b = body(Tools::GetContributionTable.call(table: "premium_pay"))
+      expect(b["data"]["day_types"]["regular_holiday"]["worked"]).to eq("2.00")
+    end
+
     it "maps an unknown table to a structured no_rate_table error" do
       b = body(Tools::GetContributionTable.call(table: "gsis"))
       expect(b["error"]).to eq("no_rate_table")
@@ -138,7 +143,8 @@ RSpec.describe "MCP tool adapters" do
       expect(Tools::ComputeNetPay.input_schema.to_h.dig(:properties, :member_type, :enum))
         .to eq(PhPayroll::SssCalculator::MEMBER_TYPES)
       expect(Tools::GetContributionTable.input_schema.to_h.dig(:properties, :table, :enum))
-        .to contain_exactly("sss", "philhealth", "pagibig", "withholding_tax", "thirteenth_month")
+        .to contain_exactly("sss", "philhealth", "pagibig", "withholding_tax", "thirteenth_month",
+                            "premium_pay", "holidays")
     end
   end
 end
