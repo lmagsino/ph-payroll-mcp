@@ -16,18 +16,18 @@ ahead of the Sinatra app (which keeps `/health`). Remove
 `Payroll::RateTables.load!` stays.
 
 **Acceptance criteria:**
-- [ ] `Gemfile` has `gem "mcp", "~> 1.7"` and no `fast-mcp`; `Gemfile.lock` regenerated
-- [ ] `POST /mcp` with an `initialize` request returns a JSON-RPC result naming the
+- [x] `Gemfile` has `gem "mcp", "~> 1.7"` and no `fast-mcp`; `Gemfile.lock` regenerated
+- [x] `POST /mcp` with an `initialize` request returns a JSON-RPC result naming the
       server `ph-payroll-mcp` and the `VERSION` file's version
-- [ ] `GET /health` still returns `ok`; unknown paths still 404 from Sinatra
-- [ ] `lib/normalize_response_headers.rb` deleted; plain `bundle exec rackup` in
+- [x] `GET /health` still returns `ok`; unknown paths still 404 from Sinatra
+- [x] `lib/normalize_response_headers.rb` deleted; plain `bundle exec rackup` in
       development serves `/mcp` without a Rack::Lint 500
 
 **Verification:**
-- [ ] `bundle exec rspec spec/health_spec.rb spec/mcp_mount_spec.rb` (mount spec is
+- [x] `bundle exec rspec spec/health_spec.rb spec/mcp_mount_spec.rb` (mount spec is
       rewritten in Task 3; until then only health must pass)
-- [ ] `bundle exec rackup` then `curl -X POST localhost:9292/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}'` returns a result
-- [ ] Manual check: read the installed gem's transport source first; note in the config.ru
+- [x] `bundle exec rackup` then `curl -X POST localhost:9292/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}'` returns a result
+- [x] Manual check: read the installed gem's transport source first; note in the config.ru
       comment which constructor options were used (`stateless:`, `allowed_origins:`,
       `enable_json_response:` if it exists) and why
 
@@ -54,21 +54,21 @@ class-level `call(server_context:, **args)` keeps the existing `domain { }` wrap
 `no_rate_table`) are unchanged.
 
 **Acceptance criteria:**
-- [ ] `tools/list` over `POST /mcp` returns 7 tools; every salary / income / deduction
+- [x] `tools/list` over `POST /mcp` returns 7 tools; every salary / income / deduction
       property has `"type": "number"` (no `"not": {"type": "null"}`), `member_type` and
       `table` carry `enum`, `as_of` has `format: date`
-- [ ] Every tool still returns a single text content block of clean JSON with
+- [x] Every tool still returns a single text content block of clean JSON with
       `source_circular` (or `sources`) present
-- [ ] Domain errors still come back as `{error, message}` payloads, never a raised
+- [x] Domain errors still come back as `{error, message}` payloads, never a raised
       exception reaching the transport
-- [ ] `spec/mcp/tools/tools_spec.rb` passes with the `call_with_schema_validation!`
+- [x] `spec/mcp/tools/tools_spec.rb` passes with the `call_with_schema_validation!`
       example replaced by a `json_schemer` validation of each tool's `input_schema`
       accepting an integer salary
 
 **Verification:**
-- [ ] `bundle exec rspec spec/mcp/tools/tools_spec.rb`
-- [ ] `bundle exec ruby -e 'require "./app/mcp/tools"; Tools::ALL.each { |t| puts t.name, JSON.pretty_generate(t.input_schema.to_h) }'` shows `number` types
-- [ ] Manual check: Inspector's tool form renders numeric inputs for salary fields
+- [x] `bundle exec rspec spec/mcp/tools/tools_spec.rb`
+- [x] `bundle exec ruby -e 'require "./app/mcp/tools"; Tools::ALL.each { |t| puts t.name, JSON.pretty_generate(t.input_schema.to_h) }'` shows `number` types
+- [ ] Manual check: Inspector's tool form renders numeric inputs for salary fields (verified via Inspector CLI schema only, not the web form)
 
 **Dependencies:** Task 1
 
@@ -91,16 +91,16 @@ rack-test (possible now that a stateless POST answers in-band): `tools/list` cou
 `tools/call` result, plus the Sinatra passthrough 404.
 
 **Acceptance criteria:**
-- [ ] `bin/smoke` exits 0 and prints the 7 tool names and the net-pay figure
-- [ ] `spec/mcp_mount_spec.rb` asserts `tools/list` returns 7 tools and
+- [x] `bin/smoke` exits 0 and prints the 7 tool names and the net-pay figure
+- [x] `spec/mcp_mount_spec.rb` asserts `tools/list` returns 7 tools and
       `tools/call compute_net_pay` returns a payload with `net_pay` and four `sources`
-- [ ] The lowercase-header example is dropped (no normalizer exists any more) or kept
+- [x] The lowercase-header example is dropped (no normalizer exists any more) or kept
       only if the gem emits lowercase headers on its own
 
 **Verification:**
-- [ ] `bundle exec rspec`
-- [ ] `bin/smoke`
-- [ ] CI workflow unchanged and green (it already runs validate_tables + rspec)
+- [x] `bundle exec rspec`
+- [x] `bin/smoke`
+- [x] CI workflow unchanged and green (it already runs validate_tables + rspec)
 
 **Dependencies:** Tasks 1, 2
 
@@ -123,15 +123,15 @@ schemas fixed; the SSE known-limitation line goes. `server.json` remote becomes
 `$schema` URL checked against the current registry schema.
 
 **Acceptance criteria:**
-- [ ] No mention of `/mcp/sse`, `/mcp/messages`, fast-mcp, or protocol 2024-11-05 remains
+- [x] No mention of `/mcp/sse`, `/mcp/messages`, fast-mcp, or protocol 2024-11-05 remains
       anywhere in README, CHANGELOG Unreleased, or `server.json`
-- [ ] `server.json` validates against its `$schema` (fetch and check with a JSON Schema
+- [x] `server.json` validates against its `$schema` (fetch and check with a JSON Schema
       validator, or `npx @modelcontextprotocol/registry validate` if available)
 
 **Verification:**
-- [ ] `grep -rn "sse\|fast-mcp\|2024-11-05" README.md CHANGELOG.md server.json` is empty
+- [x] `grep -rn "sse\|fast-mcp\|2024-11-05" README.md CHANGELOG.md server.json` is empty
       (apart from the CHANGELOG "Removed" line that names fast-mcp)
-- [ ] Manual check: README local-run block works copy-pasted on a clean clone
+- [x] Manual check: README local-run block works copy-pasted on a clean clone
 
 **Dependencies:** Task 3
 
@@ -143,10 +143,10 @@ schemas fixed; the SSE known-limitation line goes. `server.json` remote becomes
 ---
 
 ## Checkpoint: After M5 (Tasks 1-4)
-- [ ] `bundle exec rspec` green, `bin/validate_tables` OK, `bin/smoke` PASS
-- [ ] Inspector lists 7 tools with `number` types on money fields
-- [ ] Plain development `rackup` serves `/mcp`
-- [ ] PR `feature/m5-streamable-http` → `main`, CI green, Leo reviews before merge
+- [x] `bundle exec rspec` green, `bin/validate_tables` OK, `bin/smoke` PASS
+- [x] Inspector lists 7 tools with `number` types on money fields
+- [x] Plain development `rackup` serves `/mcp`
+- [x] PR `feature/m5-streamable-http` → `main`, CI green, Leo reviews before merge
 
 ---
 
@@ -162,16 +162,16 @@ citation and any contradicted value; re-derive affected golden spec values by ha
 the circular.
 
 **Acceptance criteria:**
-- [ ] `config/contribution_tables/sss.yml` `source_circular` names the circular number
+- [x] `config/contribution_tables/sss.yml` `source_circular` names the circular number
       and year; the file header comment no longer says CONFIRM
-- [ ] EC threshold and bracket shape match the circular; if changed, the spec comment shows
+- [x] EC threshold and bracket shape match the circular; if changed, the spec comment shows
       the hand derivation
-- [ ] `spec/payroll/sss_calculator_spec.rb` green
+- [x] `spec/payroll/sss_calculator_spec.rb` green
 
 **Verification:**
-- [ ] `bundle exec rspec spec/payroll/sss_calculator_spec.rb spec/payroll/net_pay_calculator_spec.rb`
-- [ ] `bin/validate_tables`
-- [ ] Manual check: the URL recorded in VERIFICATION.md opens and shows the figures
+- [x] `bundle exec rspec spec/payroll/sss_calculator_spec.rb spec/payroll/net_pay_calculator_spec.rb`
+- [x] `bin/validate_tables`
+- [x] Manual check: the URL recorded in VERIFICATION.md opens and shows the figures
 
 **Dependencies:** None (parallel with M5)
 
@@ -192,12 +192,12 @@ the circular.
 date. Update both YAML citations and header comments.
 
 **Acceptance criteria:**
-- [ ] `philhealth.yml` and `pagibig.yml` carry circular numbers and no CONFIRM text
-- [ ] Values unchanged unless a circular contradicts them (then same re-derivation rule)
+- [x] `philhealth.yml` and `pagibig.yml` carry circular numbers and no CONFIRM text
+- [x] Values unchanged unless a circular contradicts them (then same re-derivation rule)
 
 **Verification:**
-- [ ] `bundle exec rspec spec/payroll/philhealth_calculator_spec.rb spec/payroll/pagibig_calculator_spec.rb`
-- [ ] `bin/validate_tables`
+- [x] `bundle exec rspec spec/payroll/philhealth_calculator_spec.rb spec/payroll/pagibig_calculator_spec.rb`
+- [x] `bin/validate_tables`
 
 **Dependencies:** None
 
@@ -217,13 +217,13 @@ TRAIN (RA 10963), and the ₱90,000 13th-month / other-benefits exemption to its
 Check the six monthly rows digit by digit against the BIR table.
 
 **Acceptance criteria:**
-- [ ] `withholding_tax.yml` and `thirteenth_month.yml` carry RR/RMC numbers and no
+- [x] `withholding_tax.yml` and `thirteenth_month.yml` carry RR/RMC numbers and no
       CONFIRM text
-- [ ] All six bracket rows match the BIR table exactly
+- [x] All six bracket rows match the BIR table exactly
 
 **Verification:**
-- [ ] `bundle exec rspec spec/payroll/withholding_tax_calculator_spec.rb spec/payroll/thirteenth_month_calculator_spec.rb`
-- [ ] `bin/validate_tables`
+- [x] `bundle exec rspec spec/payroll/withholding_tax_calculator_spec.rb spec/payroll/thirteenth_month_calculator_spec.rb`
+- [x] `bin/validate_tables`
 
 **Dependencies:** None
 
@@ -244,14 +244,14 @@ Sweep the repo for leftover `CONFIRM` / "BEST-EFFORT" wording (YAML headers,
 `WithholdingTaxCalculator` class comment, CHANGELOG known-limitations).
 
 **Acceptance criteria:**
-- [ ] `grep -rni "confirm\|best-effort" config/ app/ README.md CHANGELOG.md` is empty
-- [ ] VERIFICATION.md has a row for every value in every YAML file
-- [ ] CHANGELOG "Known limitations" rate-data caveat replaced by a pointer to
+- [x] `grep -rni "confirm\|best-effort" config/ app/ README.md CHANGELOG.md` is empty
+- [x] VERIFICATION.md has a row for every value in every YAML file
+- [x] CHANGELOG "Known limitations" rate-data caveat replaced by a pointer to
       VERIFICATION.md
 
 **Verification:**
-- [ ] `bundle exec rspec` (full)
-- [ ] `bin/validate_tables` prints 5 real citations
+- [x] `bundle exec rspec` (full)
+- [x] `bin/validate_tables` prints 5 real citations
 
 **Dependencies:** Tasks 5, 6, 7
 
@@ -265,10 +265,10 @@ Sweep the repo for leftover `CONFIRM` / "BEST-EFFORT" wording (YAML headers,
 ---
 
 ## Checkpoint: After M6 (Tasks 5-8)
-- [ ] No CONFIRM / best-effort text in config, app, README, CHANGELOG
-- [ ] `bin/validate_tables` shows a real circular per table
-- [ ] Full suite green
-- [ ] PR `feature/m6-citations` → `main`, CI green, Leo reviews before merge
+- [x] No CONFIRM / best-effort text in config, app, README, CHANGELOG
+- [x] `bin/validate_tables` shows a real circular per table
+- [x] Full suite green
+- [x] PR `feature/m6-citations` → `main`, CI green, Leo reviews before merge
 
 ---
 
@@ -282,13 +282,13 @@ Sweep the repo for leftover `CONFIRM` / "BEST-EFFORT" wording (YAML headers,
 file records the `effective_date` it was captured under.
 
 **Acceptance criteria:**
-- [ ] 7 JSON files + 1 markdown payslip under `examples/`, every response showing a real
+- [x] 7 JSON files + 1 markdown payslip under `examples/`, every response showing a real
       circular
-- [ ] `bin/capture_examples` is idempotent (re-running produces the same files)
+- [x] `bin/capture_examples` is idempotent (re-running produces the same files)
 
 **Verification:**
-- [ ] `bin/capture_examples && git status --short examples/` clean on a second run
-- [ ] Manual check: payslip figures match `bin/smoke` output
+- [x] `bin/capture_examples && git status --short examples/` clean on a second run
+- [x] Manual check: payslip figures match `bin/smoke` output
 
 **Dependencies:** M5 + M6 merged
 
@@ -307,13 +307,13 @@ follow-up. Save the exchange as `examples/claude-code-session.md`. This is the
 end-to-end proof that a real MCP client resolves the tools and cites the sources.
 
 **Acceptance criteria:**
-- [ ] Transcript shows `compute_net_pay` invoked and the answer quoting the four
+- [x] Transcript shows `compute_net_pay` invoked and the answer quoting the four
       circulars
-- [ ] If Claude Code rejects stateless mode, the fix (stateful + `workers 0`) is applied in
+- [x] If Claude Code rejects stateless mode, the fix (stateful + `workers 0`) is applied in
       the same PR and the transcript re-captured
 
 **Verification:**
-- [ ] Manual check only (client interaction)
+- [x] Manual check only (client interaction)
 
 **Dependencies:** Task 9
 
@@ -333,13 +333,13 @@ snippets), then a `![demo](docs/demo.gif)` placeholder with a one-line caption, 
 steps, then data sources → VERIFICATION.md, disclaimer, stack, author, license.
 
 **Acceptance criteria:**
-- [ ] A new reader can get `tools/list` from Inspector by following the README verbatim
-- [ ] Claude Desktop and Cursor config snippets are valid JSON for an HTTP server entry
-- [ ] Render section is clearly optional and names the cold-start tradeoff
+- [x] A new reader can get `tools/list` from Inspector by following the README verbatim
+- [x] Claude Desktop and Cursor config snippets are valid JSON for an HTTP server entry
+- [x] Render section is clearly optional and names the cold-start tradeoff
 
 **Verification:**
-- [ ] Manual check: follow the README on a fresh clone in a temp dir
-- [ ] `grep -n "demo.gif" README.md` finds the placeholder
+- [x] Manual check: follow the README on a fresh clone in a temp dir
+- [x] `grep -n "demo.gif" README.md` finds the placeholder
 
 **Dependencies:** Tasks 9, 10
 
@@ -357,12 +357,12 @@ steps, then data sources → VERIFICATION.md, disclaimer, stack, author, license
 the CHANGELOG entry. Add the post-tag checklist from `tasks/plan.md` to the release notes.
 
 **Acceptance criteria:**
-- [ ] `git tag v0.1.0` on the merge commit, pushed
-- [ ] `gh release view v0.1.0` shows the CHANGELOG entry and the post-tag checklist
+- [x] `git tag v0.1.0` on the merge commit, pushed
+- [x] `gh release view v0.1.0` shows the CHANGELOG entry and the post-tag checklist
 
 **Verification:**
-- [ ] `gh release view v0.1.0`
-- [ ] CI green on the tagged commit
+- [x] `gh release view v0.1.0`
+- [x] CI green on the tagged commit
 
 **Dependencies:** Task 11 merged
 
@@ -374,7 +374,7 @@ the CHANGELOG entry. Add the post-tag checklist from `tasks/plan.md` to the rele
 ---
 
 ## Checkpoint: Complete
-- [ ] M5 + M6 checkpoints hold on `main`
-- [ ] `examples/` committed with real citations
-- [ ] `v0.1.0` tagged and released
-- [ ] Post-tag checklist (gif, Render, claude.ai connector, registry) handed to Leo
+- [x] M5 + M6 checkpoints hold on `main`
+- [x] `examples/` committed with real citations
+- [x] `v0.1.0` tagged and released
+- [x] Post-tag checklist (gif, Render, claude.ai connector, registry) handed to Leo

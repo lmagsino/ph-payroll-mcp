@@ -1,7 +1,7 @@
 # Implementation Plan: v0.1.0 Ship
 
 **Date:** 2026-10-14
-**Status:** Approved (decisions grilled 2026-10-14)
+**Status:** Shipped as v0.1.0 on 2026-10-14 (decisions grilled 2026-10-14)
 **Supersedes:** the M4 handoff in `docs/technical-plan-m4-ship.md` (Render was never connected; the SSE transport is now deprecated by Claude's connector docs).
 
 ## Overview
@@ -54,42 +54,42 @@ M5 and M6 can run in parallel on separate branches; M7 starts after both merge.
 ## Task List
 
 ### Phase M5: Transport migration (branch `feature/m5-streamable-http`)
-- [ ] Task 1: Mount the official gem's Streamable HTTP transport at `/mcp`
-- [ ] Task 2: Port the 7 tool adapters to `MCP::Tool` with typed number schemas
-- [ ] Task 3: Rewrite `bin/smoke` and the mount spec for the new transport
-- [ ] Task 4: Update README transport/local sections, CHANGELOG, `server.json`
+- [x] Task 1: Mount the official gem's Streamable HTTP transport at `/mcp`
+- [x] Task 2: Port the 7 tool adapters to `MCP::Tool` with typed number schemas
+- [x] Task 3: Rewrite `bin/smoke` and the mount spec for the new transport
+- [x] Task 4: Update README transport/local sections, CHANGELOG, `server.json`
 
 ### Checkpoint: M5
-- [ ] `bundle exec rspec` green, `bin/validate_tables` OK, `bin/smoke` PASS over `POST /mcp`
-- [ ] `npx @modelcontextprotocol/inspector` against `localhost:9292/mcp` lists 7 tools and
+- [x] `bundle exec rspec` green, `bin/validate_tables` OK, `bin/smoke` PASS over `POST /mcp`
+- [x] `npx @modelcontextprotocol/inspector` against `localhost:9292/mcp` lists 7 tools and
       shows `type: number` on salary fields
-- [ ] Plain `bundle exec rackup` (development, Rack::Lint on) serves `/mcp` without a 500
-- [ ] PR opened, CI green, Leo reviews before merge
+- [x] Plain `bundle exec rackup` (development, Rack::Lint on) serves `/mcp` without a 500
+- [x] PR opened, CI green, Leo reviews before merge
 
 ### Phase M6: Rate verification (branch `feature/m6-citations`)
-- [ ] Task 5: SSS schedule, EC threshold, and WISP/MPF boundary against sss.gov.ph
-- [ ] Task 6: PhilHealth and Pag-IBIG circulars
-- [ ] Task 7: BIR monthly RWT table and 13th-month exemption threshold
-- [ ] Task 8: `docs/VERIFICATION.md` and removal of every `CONFIRM` flag
+- [x] Task 5: SSS schedule, EC threshold, and WISP/MPF boundary against sss.gov.ph
+- [x] Task 6: PhilHealth and Pag-IBIG circulars
+- [x] Task 7: BIR monthly RWT table and 13th-month exemption threshold
+- [x] Task 8: `docs/VERIFICATION.md` and removal of every `CONFIRM` flag
 
 ### Checkpoint: M6
-- [ ] `grep -ri confirm config/ app/` returns nothing
-- [ ] `bin/validate_tables` prints 5 tables, each with a real circular in the citation
-- [ ] Domain specs green; any expected value that changed is re-derived from the circular
+- [x] `grep -ri confirm config/ app/` returns nothing
+- [x] `bin/validate_tables` prints 5 tables, each with a real circular in the citation
+- [x] Domain specs green; any expected value that changed is re-derived from the circular
       in the spec, never from the YAML
-- [ ] PR opened, CI green, Leo reviews before merge
+- [x] PR opened, CI green, Leo reviews before merge
 
 ### Phase M7: Showcase and release (branch `feature/m7-showcase`)
-- [ ] Task 9: Capture `examples/` from the running server
-- [ ] Task 10: Claude Code localhost proof, transcript saved under `examples/`
-- [ ] Task 11: README rewrite: local-first quickstart, gif placeholder, Render optional
-- [ ] Task 12: CHANGELOG 0.1.0 entry, bump `VERSION`, tag `v0.1.0`
+- [x] Task 9: Capture `examples/` from the running server
+- [x] Task 10: Claude Code localhost proof, transcript saved under `examples/`
+- [x] Task 11: README rewrite: local-first quickstart, gif placeholder, Render optional
+- [x] Task 12: CHANGELOG 0.1.0 entry, bump `VERSION`, tag `v0.1.0`
 
 ### Checkpoint: Complete
-- [ ] All M5 + M6 checkpoints still hold on `main`
-- [ ] `examples/` contains one request + response per tool with real citations
-- [ ] Tag `v0.1.0` pushed; GitHub release notes = CHANGELOG entry
-- [ ] Post-tag checklist handed to Leo (below)
+- [x] All M5 + M6 checkpoints still hold on `main`
+- [x] `examples/` contains one request + response per tool with real citations
+- [x] Tag `v0.1.0` pushed; GitHub release notes = CHANGELOG entry
+- [x] Post-tag checklist handed to Leo (below)
 
 ## Post-tag checklist (needs Leo's accounts / keyboard)
 1. Record a ~30s clip of Claude Code or Claude Desktop computing a payslip with
