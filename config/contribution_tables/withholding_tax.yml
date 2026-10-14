@@ -1,11 +1,11 @@
-# BIR period-based Revised Withholding Tax Table — MONTHLY column (eng-review D8).
-# BEST-EFFORT: these are the widely-published TRAIN Phase-2 (2023+) monthly RWT rows.
-# CONFIRM against the current BIR table before production and record the RR/circular no.
+# BIR period-based Revised Withholding Tax Table — MONTHLY column (eng-review D8),
+# Annex "E" of RR 11-2018, for compensation paid from 1 January 2023. All six rows
+# match the BIR's Annex E PDF digit for digit; see docs/VERIFICATION.md.
 # tax = base + rate * (monthly_taxable_income - over).
 agency: withholding_tax
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "BIR Revised Withholding Tax Table, monthly (TRAIN Phase 2) — CONFIRM current RR no."
+    source_circular: "BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)"
     data:
       monthly:
         brackets:
