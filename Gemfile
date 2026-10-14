@@ -4,7 +4,6 @@ source "https://rubygems.org"
 
 ruby "3.3.11"
 
-gem "fast-mcp"      # MCP server; exact version pinned in Gemfile.lock (Layer 2 dep, expect churn)
 gem "mcp", "~> 1.7" # official MCP Ruby SDK (Streamable HTTP transport)
 gem "puma"          # app server (dev + Render)
 gem "rack-cors"     # MCP clients call cross-origin

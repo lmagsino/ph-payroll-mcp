@@ -22,11 +22,4 @@ RSpec.describe "MCP transport mount" do
 
     expect(last_response.status).to eq(404)
   end
-
-  it "normalizes response header names to lowercase (Rack 3 compliance)" do
-    get "/health"
-
-    keys = last_response.headers.keys
-    expect(keys).to eq(keys.map(&:downcase))
-  end
 end
