@@ -21,3 +21,23 @@ jobs:
 
       - name: RSpec
         run: bundle exec rspec
+
+  gem:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gem
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.11"
+          bundler-cache: true
+          working-directory: gem
+
+      - name: RSpec
+        run: bundle exec rspec
+
+      - name: Build
+        run: gem build ph_payroll.gemspec
