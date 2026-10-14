@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Format follows
 
 ## [Unreleased]
 
+### Changed
+- The calculators and rate tables moved into the [`ph_payroll`](gem/) gem (`gem/`), which
+  the server uses by path; the domain module is now `PhPayroll`. Tool behaviour and every
+  figure are unchanged.
+
+### Added
+- `docs/MAINTAINING.md` (rate-update and release runbook), a gem release workflow on
+  `ph_payroll/v*` tags, and a yearly "Re-verify <year> rates" issue.
+
 ## [0.1.0] - 2026-10-14
 
 ### Added
