@@ -23,12 +23,22 @@ All notable changes to this project are documented here. Format follows
   `member_type` / `pay_period` / `table` are enums, `as_of` is `format: date`, and unknown
   arguments are rejected.
 - Domain errors (`invalid_input`, `no_rate_table`) are returned with `isError: true`.
+- Every rate table now cites its governing issuance: SSS Circular 2024-006 (with
+  2024-008/-009/-010), PhilHealth Circular 2020-0005 (Rev. 1), HDMF Circular 460, and
+  BIR RR 11-2018 (Annex E and Sec. 6). All values were checked on 2026-10-14 and none
+  changed. Sources, and whether each one is primary or secondary, are in
+  [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
 ### Removed
 - `fast-mcp` and its HTTP+SSE endpoints (`GET /mcp/sse`, `POST /mcp/messages`), along
   with the Rack 3 response-header workaround they needed.
 
 ### Known limitations
-- **Rate data is BEST-EFFORT and flagged `CONFIRM`.** Every SSS/PhilHealth/Pag-IBIG/BIR
-  value must be verified against the primary agency circular before production use.
+- **Rate data:** see [docs/VERIFICATION.md](docs/VERIFICATION.md) for the source of
+  every figure. The Pag-IBIG figures rest on secondary sources (DBM Circular Letter
+  2024-2 quoting HDMF Circular 460).
+- SSS self-employed members are computed without the EC contribution (₱10/₱30) that
+  Circular 2024-008 charges them, so their total is ₱10 or ₱30 short.
+- The ₱90,000 13th-month exemption is shared with other benefits; the 13th-month tool
+  applies all of it to the 13th-month pay.
 - Withholding tax supports the monthly pay period only; other periods are a data TODO.

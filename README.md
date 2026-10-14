@@ -69,9 +69,9 @@ the tier to remove it).
 
 Contribution tables are versioned by effective date and stored in
 `config/contribution_tables/`, each carrying its `effective_date` and `source_circular`.
-Next year's update is a data PR, not a code change. Every table is verified against the
-primary agency circular (sss.gov.ph, philhealth.gov.ph, pagibigfund.gov.ph, bir.gov.ph)
-before shipping.
+Next year's update is a data PR, not a code change. Every value is checked against the
+agency's issuance, and [docs/VERIFICATION.md](docs/VERIFICATION.md) records the source
+URL, circular number, check date, and whether the source is primary or secondary.
 
 ## Disclaimer
 
