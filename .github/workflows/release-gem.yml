@@ -1,0 +1,45 @@
+name: Release ph_payroll
+
+# Publishes gem/ to rubygems.org when a `ph_payroll/v<version>` tag is pushed. Uses
+# trusted publishing (OIDC), so no API key is stored: the rubygems.org trusted publisher
+# for this repo + workflow must exist first (see docs/MAINTAINING.md). Not
+# rubygems/release-gem: its `rake release` would tag `v<version>`, which collides with
+# the server's own release tags.
+on:
+  push:
+    tags: ["ph_payroll/v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: rubygems
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: gem
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.11"
+          bundler-cache: true
+          working-directory: gem
+
+      - name: Tag matches PhPayroll::VERSION
+        run: |
+          version=$(ruby -Ilib -rph_payroll/version -e 'print PhPayroll::VERSION')
+          test "${GITHUB_REF_NAME}" = "ph_payroll/v${version}" || {
+            echo "tag ${GITHUB_REF_NAME} does not match version ${version}"; exit 1; }
+
+      - name: RSpec
+        run: bundle exec rspec
+
+      - uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
+
+      - name: Build and push
+        run: |
+          gem build ph_payroll.gemspec
+          gem push ph_payroll-*.gem
