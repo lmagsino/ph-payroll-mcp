@@ -33,12 +33,14 @@ All notable changes to this project are documented here. Format follows
 - `fast-mcp` and its HTTP+SSE endpoints (`GET /mcp/sse`, `POST /mcp/messages`), along
   with the Rack 3 response-header workaround they needed.
 
+### Fixed
+- SSS self-employed members now pay the EC contribution (₱10 below MSC ₱15,000, ₱30
+  from it) on top of the 15%, per Circular 2024-008. MSC ₱25,000 is ₱3,780, not ₱3,750.
+
 ### Known limitations
 - **Rate data:** see [docs/VERIFICATION.md](docs/VERIFICATION.md) for the source of
   every figure. The Pag-IBIG figures rest on secondary sources (DBM Circular Letter
   2024-2 quoting HDMF Circular 460).
-- SSS self-employed members are computed without the EC contribution (₱10/₱30) that
-  Circular 2024-008 charges them, so their total is ₱10 or ₱30 short.
 - The ₱90,000 13th-month exemption is shared with other benefits; the 13th-month tool
   applies all of it to the 13th-month pay.
 - Withholding tax supports the monthly pay period only; other periods are a data TODO.
