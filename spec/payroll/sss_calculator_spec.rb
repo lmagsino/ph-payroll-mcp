@@ -4,8 +4,9 @@ require "bigdecimal"
 
 # Golden values computed from the modeled rules (MSC rounded to ₱500 steps, clamp
 # 5k–35k / OFW 8k, regular 5%EE/10%ER, WISP above ₱20,000, EC 10/30 at MSC ₱15,000,
-# self/vol/ofw pay the full 15%) — not read from the YAML. The employed and OFW
-# figures also appear verbatim in the tables of SSS Circulars 2024-006 and 2024-010.
+# self/vol/ofw pay the full 15%, self-employed also pay EC) — not read from the YAML.
+# The employed figures, the OFW figure and the self-employed MSC ₱25,000 figure also
+# appear verbatim in the tables of SSS Circulars 2024-006, 2024-010 and 2024-008.
 RSpec.describe Payroll::SssCalculator do
   subject(:calc) { described_class.new }
 
@@ -51,19 +52,29 @@ RSpec.describe Payroll::SssCalculator do
   end
 
   describe "non-employed members pay the full rate with no employer share" do
-    # Pins the current model, not Circular 2024-008: its MSC ₱25,000 row charges the
-    # self-employed member ₱3,780 (3,000 + 750 MPF + ₱30 EC). See docs/VERIFICATION.md.
-    it "self_employed pays 15% on the MSC, employer 0, no EC" do
+    it "self_employed pays 15% on the MSC plus EC, employer 0" do
       r = calc.call(monthly_salary: 25_000, member_type: "self_employed")
-      expect(a(r)[:employee_share]).to eq(BigDecimal("3750.00")) # 25000 * 15%
+      expect(a(r)[:ec_contribution]).to eq(BigDecimal("30"))
+      expect(a(r)[:employee_share]).to eq(BigDecimal("3780.00")) # 3,000 SS + 750 MPF + 30 EC
       expect(a(r)[:employer_share]).to eq(BigDecimal("0"))
+      expect(a(r)[:total]).to eq(BigDecimal("3780.00"))
+    end
+
+    it "self_employed pays the low EC (₱10) below MSC ₱15,000" do
+      r = calc.call(monthly_salary: 10_000, member_type: "self_employed")
+      expect(a(r)[:employee_share]).to eq(BigDecimal("1510.00")) # 10000 * 15% + 10 EC
+    end
+
+    it "voluntary pays 15% on the MSC with no EC" do
+      r = calc.call(monthly_salary: 25_000, member_type: "voluntary")
       expect(a(r)[:ec_contribution]).to eq(BigDecimal("0"))
+      expect(a(r)[:employee_share]).to eq(BigDecimal("3750.00")) # 25000 * 15%
     end
 
     it "OFW uses the ₱8,000 floor" do
       r = calc.call(monthly_salary: 6_000, member_type: "ofw")
       expect(a(r)[:msc]).to eq(BigDecimal("8000"))
-      expect(a(r)[:employee_share]).to eq(BigDecimal("1200.00")) # 8000 * 15%
+      expect(a(r)[:employee_share]).to eq(BigDecimal("1200.00")) # 8000 * 15%, no EC
     end
   end
 
