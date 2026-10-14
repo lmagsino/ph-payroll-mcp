@@ -1,0 +1,31 @@
+# Premium, overtime and night-shift multipliers for a daily-paid private-sector employee,
+# from the "Guide Computations" table of the DOLE-BWC Handbook on Workers' Statutory
+# Monetary Benefits, 2024 Edition (Part I.A, printed pp. 2-3). See docs/VERIFICATION.md.
+#
+#   first 8 hours   = daily rate x day multiplier (worked, or worked_rest_day)
+#   overtime hour   = hourly rate x day multiplier x (1 + overtime premium)
+#                     ordinary-day premium (25%) only when the day carries no premium;
+#                     every rest day, special day and holiday takes 30% of the day's rate
+#   night hour      = that hour's rate x (1 + night_differential), compounded
+#   not worked      = daily rate x unworked (or unworked_rest_day)
+#
+# Inferred, not stated by the Handbook: unworked_rest_day for regular_holiday (1.00) and
+# double_holiday (2.00) — the 2026 advisories' "did not work" rows draw no rest-day
+# distinction — and special_working on a rest day (1.30), since the Handbook treats a
+# special working day as an ordinary workday.
+agency: premium_pay
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "DOLE Handbook on Workers' Statutory Monetary Benefits, 2024 Edition (Labor Code Arts. 86, 87, 93, 94)"
+    data:
+      hours_per_day: "8"
+      overtime_premium_ordinary_day: "0.25"
+      overtime_premium_premium_day: "0.30"
+      night_differential: "0.10"
+      day_types:
+        ordinary:                   { worked: "1.00", worked_rest_day: "1.30", unworked: "0",    unworked_rest_day: "0" }
+        special_working:            { worked: "1.00", worked_rest_day: "1.30", unworked: "0",    unworked_rest_day: "0" }
+        special_non_working:        { worked: "1.30", worked_rest_day: "1.50", unworked: "0",    unworked_rest_day: "0" }
+        double_special_non_working: { worked: "1.50", worked_rest_day: "1.95", unworked: "0",    unworked_rest_day: "0" }
+        regular_holiday:            { worked: "2.00", worked_rest_day: "2.60", unworked: "1.00", unworked_rest_day: "1.00" }
+        double_holiday:             { worked: "3.00", worked_rest_day: "3.90", unworked: "2.00", unworked_rest_day: "2.00" }
