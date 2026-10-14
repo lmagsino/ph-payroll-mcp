@@ -53,12 +53,10 @@ a row of the 2024-006 table. MSC 25,000 gives ER 2,530.00, EE 1,250.00, total 3,
 MSC 35,000 gives a total of 5,280.00. MSC 14,000 gives ER 1,410.00. The OFW figure (MSC
 8,000 → 1,200.00) is a row of 2024-010.
 
-**Open divergence: self-employed EC.** Circular 2024-008's table charges self-employed
-members EC too: ₱10 below MSC 15,000 and ₱30 from it. The member pays it on top of the
-15%. At MSC 25,000 that is 3,000 + 750 MPF + 30 EC = **₱3,780**. `SssCalculator` gives
-self-employed members EC 0, so it returns **₱3,750**. This is a domain-logic change
-and was left out of M6 on purpose. Voluntary members (2024-009) and OFW members
-(2024-010) pay no EC, and the calculator handles them correctly.
+**Self-employed EC.** Circular 2024-008's table charges self-employed members EC too:
+₱10 below MSC 15,000 and ₱30 from it, paid by the member on top of the 15%. At MSC
+25,000 that is 3,000 + 750 MPF + 30 EC = **₱3,780**, which the calculator returns.
+Voluntary members (2024-009) and OFW members (2024-010) pay no EC.
 
 ## PhilHealth: `config/contribution_tables/philhealth.yml`
 
