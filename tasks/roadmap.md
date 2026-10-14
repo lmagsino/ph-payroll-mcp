@@ -19,9 +19,10 @@ MCP, listings where MCP users look, and a visible record that the rates stay cur
   into a `ph_payroll` gem (name is free on rubygems.org as of 2026-10-14) *before* adding
   calculators, so holiday and final pay are born in the gem instead of moving twice. The
   MCP server becomes a thin consumer of the gem.
-- **Same repo, `gem/` subdirectory:** one CI, one VERIFICATION.md, one CHANGELOG per
-  artifact; the server's Gemfile points at it with `path:` and the gem publishes from
-  the same tag.
+- **Same repo, `gem/` is the gem root:** one CI and one VERIFICATION.md; the server's
+  Gemfile points at it with `path:`. The gem keeps its own version and CHANGELOG
+  (starting at 0.1.0, tagged `ph_payroll/v*`), so a rate update ships as a gem patch
+  release without a server release.
 - **Rules are data, like rates.** Premium-pay multipliers and the holiday calendar are
   YAML tables with `effective_date` + `source_circular`, validated by the same schema
   machinery. A new year's holiday proclamation is a data PR.
@@ -29,16 +30,16 @@ MCP, listings where MCP users look, and a visible record that the rates stay cur
   holiday-pay eligibility (present the day before), exempt establishments, and the tax
   on final pay depend on the employee's records — the tool takes them as inputs or
   states them as assumptions in the result, never guesses.
-- **Every change ships in small commits on one branch per phase, one PR per phase,
-  ~400 added lines or fewer.** Larger phases split into stacked PRs.
+- **Small commits straight to `main`,** each one green (specs, `bin/validate_tables`,
+  `bin/smoke`) before it is pushed; CI runs on every push.
 
 ## Phases
 
-### R1: `ph_payroll` gem extraction (v0.2.0) — branch `feature/r1-gem`
+### R1: `ph_payroll` gem extraction (server v0.2.0, gem v0.1.0)
 
-- [ ] T1: Scaffold `gem/ph_payroll` (gemspec, `lib/ph_payroll.rb`, version file, README stub)
-- [ ] T2: Move `app/payroll/*` → `gem/lib/ph_payroll/` under `PhPayroll::` (keep a
-      `Payroll = PhPayroll` alias in the server for one release)
+- [ ] T1: Scaffold the gem in `gem/` (gemspec, `lib/ph_payroll.rb`, version, README stub)
+- [ ] T2: Rename `Payroll::` → `PhPayroll::`, then move `app/payroll/*` →
+      `gem/lib/ph_payroll/` (no alias: the server is the only consumer)
 - [ ] T3: Move the rate tables + `TableSchema` into the gem; table path resolves inside the gem
 - [ ] T4: Move the domain specs into `gem/spec`; CI runs both suites
 - [ ] T5: Server depends on the gem via `path:`; tools require `ph_payroll`
@@ -49,7 +50,7 @@ MCP, listings where MCP users look, and a visible record that the rates stay cur
 `PhPayroll::NetPayCalculator.new.call(gross_monthly_salary: 30_000, member_type: "employed")`
 returns net ₱26,542.45 with four citations; server specs, smoke, and examples unchanged.
 
-### R2: Holiday and premium pay (v0.3.0) — branch `feature/r2-premium-pay`
+### R2: Holiday and premium pay
 
 The rule people get wrong: regular holiday vs special non-working day, and how a rest
 day, overtime and night work stack on top.
@@ -75,7 +76,7 @@ day, overtime and night work stack on top.
 overtime and night hours, matches a hand derivation in the spec; an unknown 2027 date
 returns `no_rate_table`, not a guess.
 
-### R3: Final pay / back pay (v0.4.0) — branch `feature/r3-final-pay`
+### R3: Final pay / back pay
 
 - [ ] T13: Research + VERIFICATION rows: DOLE Labor Advisory No. 06-2020 (components,
       30-day release), Labor Code Art. 95 (service incentive leave), Arts. 298–299
@@ -90,7 +91,7 @@ returns `no_rate_table`, not a guess.
 **Scope fence:** gross components and taxability flags only. The annualized final
 withholding tax needs year-to-date payroll the tool does not have.
 
-### R4: Discoverability (ops, mostly Leo's accounts) — no branch
+### R4: Discoverability (ops, mostly Leo's accounts)
 
 - [ ] T16: Render free tier live (v0.1.0 post-release checklist items 2–3)
 - [ ] T17: Official MCP registry: publish `server.json` with the Render remote (the
