@@ -1,8 +1,8 @@
 # ph-payroll-mcp
 
 An MCP server that gives any MCP-compatible LLM accurate, current-year Philippine
-statutory payroll math — SSS, PhilHealth, Pag-IBIG, and BIR withholding tax — instead
-of guessing from stale training data. Every number is computed from versioned reference
+statutory payroll math — SSS, PhilHealth, Pag-IBIG, BIR withholding tax, and holiday and
+premium pay — instead of guessing from stale training data. Every number is computed from versioned reference
 tables and cited to its source circular.
 
 ![Claude computing a ₱30,000 payslip with ph-payroll-mcp, citing each circular](docs/demo.gif)
@@ -85,6 +85,8 @@ npx @modelcontextprotocol/inspector --web --transport http --server-url http://l
 | `compute_13th_month_pay` | 13th month pay + tax-exempt portion |
 | `compute_net_pay` | Full monthly payslip: gross → net, each deduction cited |
 | `get_contribution_table` | Raw rate table + effective date + source circular |
+| `compute_holiday_pay` | One day's pay on a regular holiday, special day, rest day or ordinary day, with overtime and night-shift hours; give a date and the official calendar decides the day type |
+| `list_holidays` | A year's nationwide holidays, each typed and cited to its proclamation |
 
 ## Examples
 
