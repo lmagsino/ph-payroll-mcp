@@ -3,9 +3,9 @@
 require "bigdecimal"
 
 # Golden values computed from the modeled rules (MSC rounded to ₱500 steps, clamp
-# 5k–35k / OFW 8k, regular 5%EE/10%ER, WISP above ₱20,000, EC 10/30 at ₱15,000,
-# self/vol/ofw pay the full 15%) — not read from the YAML. When the SSS numbers are
-# verified these expected values move with them, but the LOGIC is pinned here.
+# 5k–35k / OFW 8k, regular 5%EE/10%ER, WISP above ₱20,000, EC 10/30 at MSC ₱15,000,
+# self/vol/ofw pay the full 15%) — not read from the YAML. The employed and OFW
+# figures also appear verbatim in the tables of SSS Circulars 2024-006 and 2024-010.
 RSpec.describe Payroll::SssCalculator do
   subject(:calc) { described_class.new }
 
@@ -51,6 +51,8 @@ RSpec.describe Payroll::SssCalculator do
   end
 
   describe "non-employed members pay the full rate with no employer share" do
+    # Pins the current model, not Circular 2024-008: its MSC ₱25,000 row charges the
+    # self-employed member ₱3,780 (3,000 + 750 MPF + ₱30 EC). See docs/VERIFICATION.md.
     it "self_employed pays 15% on the MSC, employer 0, no EC" do
       r = calc.call(monthly_salary: 25_000, member_type: "self_employed")
       expect(a(r)[:employee_share]).to eq(BigDecimal("3750.00")) # 25000 * 15%
