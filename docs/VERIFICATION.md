@@ -48,7 +48,7 @@ it: EC is ₱30 from **MSC** ₱15,000, which starts at compensation ₱14,750. 
 the last MSC that still pays ₱10. The calculator compares the MSC, so `15000` is
 correct.
 
-**Golden values.** Every employed figure in `spec/payroll/sss_calculator_spec.rb` is also
+**Golden values.** Every employed figure in `gem/spec/ph_payroll/sss_calculator_spec.rb` is also
 a row of the 2024-006 table. MSC 25,000 gives ER 2,530.00, EE 1,250.00, total 3,780.00.
 MSC 35,000 gives a total of 5,280.00. MSC 14,000 gives ER 1,410.00. The OFW figure (MSC
 8,000 → 1,200.00) is a row of 2024-010.
@@ -165,12 +165,13 @@ not law (per news reports, e.g. diskurso.ph, 10 Feb 2026).
 3. A changed rate is a **data PR, not a code change**:
    - Add a new `tables:` entry with the new `effective_date` and `source_circular`.
      Keep the old entry so past dates still resolve.
-   - Re-derive the affected golden values in `spec/payroll/` by hand from the circular,
+   - Re-derive the affected golden values in `gem/spec/ph_payroll/` by hand from the circular,
      and show the derivation in a spec comment.
    - Add or update this file's rows with the new figure, URL, circular number and check
      date. Mark them Primary or Secondary honestly.
-   - Regenerate `examples/`, because each example records the `effective_date` it was
-     captured under.
-   - Note the change in `CHANGELOG.md`.
-4. Run `bundle exec rspec` and `bundle exec ruby bin/validate_tables` before opening the
-   PR.
+   - Regenerate `examples/` (`bin/capture_examples`), because each example records the
+     `effective_date` it was captured under.
+   - Note the change under **Rates** in `gem/CHANGELOG.md` and in `CHANGELOG.md`.
+4. Run both suites (`bundle exec rspec` at the root and in `gem/`) and
+   `bin/validate_tables`, then release as described in
+   [MAINTAINING.md](MAINTAINING.md).
