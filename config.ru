@@ -5,15 +5,10 @@ require "mcp"
 require_relative "app"
 require_relative "app/payroll"
 require_relative "app/mcp/tools"
-require_relative "lib/normalize_response_headers"
 
 # Fail fast at boot if any rate table is malformed (missing citation, bad shape).
 # Same validation runs in CI via bin/validate_tables.
 Payroll::RateTables.load!
-
-# Outermost: lowercase response header names so fast-mcp's capitalized
-# "Content-Type" passes Rack 3's development-mode Lint (see the class comment).
-use NormalizeResponseHeaders
 
 # Cross-origin: MCP clients (Claude/ChatGPT connectors, IDEs) call from other origins.
 # Public read-only compute API, no auth — allow all origins (see README disclaimer).

@@ -6,6 +6,6 @@ module Payroll
   class Error < StandardError; end
 
   # Raised when input is semantically invalid (negative/non-finite salary, bad enum,
-  # unparseable number). Distinct from a schema/type error caught earlier by fast-mcp.
+  # unparseable number). Distinct from a schema/type error caught earlier by the tool input schema.
   class InvalidInput < Error; end
 end
