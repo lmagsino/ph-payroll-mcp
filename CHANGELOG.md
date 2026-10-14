@@ -13,6 +13,17 @@ All notable changes to this project are documented here. Format follows
 ### Added
 - `docs/MAINTAINING.md` (rate-update and release runbook), a gem release workflow on
   `ph_payroll/v*` tags, and a yearly "Re-verify <year> rates" issue.
+- `compute_holiday_pay`: one day's pay for a daily-paid employee on an ordinary day, rest
+  day, special non-working or working day, regular or double holiday, with overtime and
+  night-shift hours. A date is typed by the official holiday calendar.
+- `list_holidays`: a year's nationwide holidays with their proclamations.
+- `get_contribution_table` serves the new `premium_pay` and `holidays` tables.
+
+### Rates
+- Premium pay: DOLE Handbook on Workers' Statutory Monetary Benefits, 2024 Edition
+  (Labor Code Arts. 86, 87, 93, 94); three values inferred, marked in VERIFICATION.md.
+- Holidays 2026: Proclamation No. 1006, s. 2025, with Nos. 1189 and 1264, s. 2026
+  (Eid'l Fitr, Eid'l Adha). Nationwide days only.
 
 ## [0.1.0] - 2026-10-14
 

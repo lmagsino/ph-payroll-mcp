@@ -7,6 +7,21 @@ effective date.
 
 ## [Unreleased]
 
+### Added
+- `PremiumPayCalculator`: a day's pay by day type (ordinary, special working, special
+  non-working and its double, regular holiday, double holiday), on or off the rest day,
+  worked or not, with overtime and night-shift hours. Overtime and the night differential
+  compound on the day's rate. Takes a `date` or a `day_type`.
+- `HolidayCalendar.day(date)` and `.year(year)`: day type, holiday names and
+  proclamations from the nationwide calendar; a year without a calendar raises
+  `MissingRateTable` instead of reusing the latest year.
+
+### Rates
+- Premium pay: DOLE Handbook on Workers' Statutory Monetary Benefits, 2024 Edition
+  (Labor Code Arts. 86, 87, 93, 94), effective 2026-01-01. Three values are inferred; see
+  VERIFICATION.md.
+- Holidays 2026: Proclamation No. 1006, s. 2025, with Nos. 1189 and 1264, s. 2026.
+
 ## [0.1.0] - 2026-10-14
 
 ### Added
