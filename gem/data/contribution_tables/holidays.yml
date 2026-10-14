@@ -1,0 +1,37 @@
+# Nationwide holiday calendar, one table per year. A date not listed is an ordinary day;
+# whether it is the employee's rest day is an input, not calendar data. Two regular
+# holidays on one date make a double holiday (none in 2026). See docs/VERIFICATION.md.
+#
+# Nationwide only: regional proclamations (e.g. Proclamation No. 1447, NCR special
+# non-working days 16-18 November 2026 for the ASEAN Summit) are not loaded.
+#
+# 2026 keeps the actual dates for Araw ng Kagitingan, Labor Day, Independence Day, Ninoy
+# Aquino Day, Bonifacio Day and Rizal Day rather than the statutory "Monday nearest".
+agency: holidays
+tables:
+  - effective_date: "2026-01-01"
+    source_circular: "Proclamation No. 1006, s. 2025 (3 Sep 2025), with Proclamations No. 1189 and No. 1264, s. 2026 (Eid'l Fitr, Eid'l Adha)"
+    data:
+      year: "2026"
+      dates:
+        - { date: "2026-01-01", name: "New Year's Day",                                type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-02-17", name: "Chinese New Year",                              type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-02-25", name: "EDSA People Power Revolution Anniversary",      type: special_working,     source: "Proclamation No. 1006" }
+        - { date: "2026-03-20", name: "Eid'l Fitr",                                    type: regular_holiday,     source: "Proclamation No. 1189" }
+        - { date: "2026-04-02", name: "Maundy Thursday",                               type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-04-03", name: "Good Friday",                                   type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-04-04", name: "Black Saturday",                                type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-04-09", name: "Araw ng Kagitingan",                            type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-05-01", name: "Labor Day",                                     type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-05-27", name: "Eid'l Adha",                                    type: regular_holiday,     source: "Proclamation No. 1264" }
+        - { date: "2026-06-12", name: "Independence Day",                              type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-08-21", name: "Ninoy Aquino Day",                              type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-08-31", name: "National Heroes Day",                           type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-11-01", name: "All Saints' Day",                               type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-11-02", name: "All Souls' Day",                                type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-11-30", name: "Bonifacio Day",                                 type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-12-08", name: "Feast of the Immaculate Conception of Mary",    type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-12-24", name: "Christmas Eve",                                 type: special_non_working, source: "Proclamation No. 1006" }
+        - { date: "2026-12-25", name: "Christmas Day",                                 type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-12-30", name: "Rizal Day",                                     type: regular_holiday,     source: "Proclamation No. 1006" }
+        - { date: "2026-12-31", name: "Last Day of the Year",                          type: special_non_working, source: "Proclamation No. 1006" }
