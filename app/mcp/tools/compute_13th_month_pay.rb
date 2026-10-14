@@ -9,18 +9,23 @@ module Tools
                 "employee, from total basic salary earned this year. Returns the amounts with " \
                 "the effective date and source reference."
 
-    arguments do
-      required(:total_basic_salary_earned_this_year).filled
-        .description("Total basic salary earned in the year, in PHP (number)")
-      required(:months_worked).filled(:integer).description("Whole months worked this year, 1-12")
-    end
+    input_schema(
+      properties: {
+        total_basic_salary_earned_this_year: MONEY.merge(description: "Total basic salary earned in the year, in PHP"),
+        months_worked: { type: "integer", description: "Whole months worked this year, 1-12" }
+      },
+      required: %w[total_basic_salary_earned_this_year months_worked],
+      additionalProperties: false
+    )
 
-    def call(total_basic_salary_earned_this_year:, months_worked:)
-      domain do
-        Payroll::ThirteenthMonthCalculator.new.call(
-          total_basic_salary_earned_this_year: total_basic_salary_earned_this_year,
-          months_worked: months_worked
-        ).to_h
+    class << self
+      def call(total_basic_salary_earned_this_year:, months_worked:)
+        domain do
+          Payroll::ThirteenthMonthCalculator.new.call(
+            total_basic_salary_earned_this_year: total_basic_salary_earned_this_year,
+            months_worked: months_worked
+          ).to_h
+        end
       end
     end
   end

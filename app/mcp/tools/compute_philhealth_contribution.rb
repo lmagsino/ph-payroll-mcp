@@ -9,14 +9,16 @@ module Tools
                 "share) for a Philippine monthly salary. Returns the amounts with the " \
                 "effective date and source circular so the figure is auditable."
 
-    arguments do
-      # Untyped `filled` accepts both JSON integers and floats (LLMs send either); the
-      # domain layer coerces to BigDecimal and rejects non-numeric/negative input.
-      required(:monthly_salary).filled.description("Monthly basic salary in PHP (number)")
-    end
+    input_schema(
+      properties: { monthly_salary: MONEY.merge(description: "Monthly basic salary in PHP") },
+      required: %w[monthly_salary],
+      additionalProperties: false
+    )
 
-    def call(monthly_salary:)
-      domain { Payroll::PhilhealthCalculator.new.call(monthly_salary: monthly_salary).to_h }
+    class << self
+      def call(monthly_salary:)
+        domain { Payroll::PhilhealthCalculator.new.call(monthly_salary: monthly_salary).to_h }
+      end
     end
   end
 end

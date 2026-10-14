@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require "logger"
 require "rack/cors"
-require "fast_mcp"
+require "mcp"
 require_relative "app"
 require_relative "app/payroll"
 require_relative "app/mcp/tools"
@@ -21,32 +20,31 @@ use NormalizeResponseHeaders
 use Rack::Cors do
   allow do
     origins "*"
-    resource "*", headers: :any, methods: %i[get post options]
+    resource "*", headers: :any, methods: %i[get post delete options]
   end
 end
 
 version = File.read(File.expand_path("VERSION", __dir__)).strip
 
-# DEBUG in development, quiet (WARN) elsewhere so production and test logs stay clean.
-log_level = ENV.fetch("RACK_ENV", "production") == "development" ? Logger::DEBUG : Logger::WARN
-logger = Logger.new($stdout, level: log_level)
+server = MCP::Server.new(name: "ph-payroll-mcp", version: version, tools: Tools::ALL)
 
-# Wrap the Sinatra app with the MCP transport. It intercepts /mcp/* and passes
-# everything else through to Sinatra.
+# stateless: every POST /mcp is self-contained and nothing is kept between requests,
+# so Puma's worker count never matters. Flip to stateful only if a client insists on
+# Mcp-Session-Id, and then run Puma with `workers 0`.
 #
-# localhost_only:false + allowed_origins:[/.*/] disables fast-mcp's DNS-rebinding
-# protection, which otherwise (default localhost-only) rejects remote MCP clients.
-# Acceptable here because the server is public by design and exposes only
-# read-only public-reference math. Revisit if auth is ever added.
-mcp = FastMcp.rack_middleware(
-  PhPayrollMcp,
-  name: "ph-payroll-mcp",
-  version: version,
-  logger: logger,
-  localhost_only: false,
-  allowed_origins: [/.*/]
-) do |server|
-  Tools::ALL.each { |tool| server.register_tool(tool) }
-end
+# enable_json_response: answers each request with one JSON body instead of an SSE
+# stream. No tool streams progress or calls back to the client, so SSE buys nothing.
+#
+# dns_rebinding_protection: false — the gem's default only accepts loopback Host
+# headers, which would reject the public Render hostname. Rebinding guards a local
+# server's private data; this one exposes read-only public-reference math, so the
+# check protects nothing. Turn it back on (with allowed_hosts:) if auth is ever added.
+transport = MCP::Server::Transports::StreamableHTTPTransport.new(
+  server,
+  stateless: true,
+  enable_json_response: true,
+  dns_rebinding_protection: false
+)
 
-run mcp
+map("/mcp") { run transport }
+run PhPayrollMcp

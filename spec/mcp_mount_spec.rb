@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
-# Verifies the fast-mcp transport is mounted at /mcp and scoped correctly.
-# The HTTP+SSE transport delivers JSON-RPC results over the SSE channel, so we
-# assert the mount claims its routes (status 200, not a Sinatra 404) rather than
-# the full protocol round-trip — that lives in the M4 end-to-end test. We do NOT
-# hit GET /mcp/sse here: it returns an open streaming body that would block
-# rack-test. The SSE channel is covered by the M4 real-client test.
+# Protocol round-trips over the real middleware stack. Stateless Streamable HTTP
+# answers each POST /mcp in-band, so rack-test can drive the whole exchange.
 RSpec.describe "MCP transport mount" do
-  it "intercepts POST /mcp/messages (transport claims the route)" do
-    body = { jsonrpc: "2.0", id: 1, method: "tools/list", params: {} }.to_json
-    post "/mcp/messages", body, "CONTENT_TYPE" => "application/json"
+  def rpc(method, params = {}, id: 1)
+    post "/mcp", { jsonrpc: "2.0", id: id, method: method, params: params }.to_json,
+         { "CONTENT_TYPE" => "application/json", "HTTP_ACCEPT" => "application/json, text/event-stream" }
+    JSON.parse(last_response.body)
+  end
 
-    expect(last_response.status).to eq(200)
+  it "answers initialize with the server name and VERSION" do
+    result = rpc("initialize",
+                 { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "spec", version: "1" } })["result"]
+
+    expect(result["serverInfo"]).to include("name" => "ph-payroll-mcp",
+                                            "version" => File.read(File.expand_path("../VERSION", __dir__)).strip)
   end
 
   it "passes unknown paths through to the Sinatra app (404)" do

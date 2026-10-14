@@ -9,12 +9,16 @@ module Tools
                 "employer share) for a Philippine monthly salary. Returns the amounts with " \
                 "the effective date and source circular."
 
-    arguments do
-      required(:monthly_salary).filled.description("Monthly salary in PHP (number)")
-    end
+    input_schema(
+      properties: { monthly_salary: MONEY.merge(description: "Monthly salary in PHP") },
+      required: %w[monthly_salary],
+      additionalProperties: false
+    )
 
-    def call(monthly_salary:)
-      domain { Payroll::PagibigCalculator.new.call(monthly_salary: monthly_salary).to_h }
+    class << self
+      def call(monthly_salary:)
+        domain { Payroll::PagibigCalculator.new.call(monthly_salary: monthly_salary).to_h }
+      end
     end
   end
 end
