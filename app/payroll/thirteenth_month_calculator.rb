@@ -7,12 +7,15 @@ module Payroll
   # to the tax-exempt threshold exempt and the excess taxable.
   #
   #   thirteenth = total_basic / 12
-  #   exempt     = min(thirteenth, threshold)   # threshold ~ ₱90,000 (CONFIRM)
+  #   exempt     = min(thirteenth, threshold)   # ₱90,000, RR 11-2018
   #   taxable    = thirteenth - exempt
   #
+  # The ₱90,000 ceiling is shared with the employee's other benefits for the year
+  # (bonuses, incentives, gifts). This applies all of it to the 13th-month pay, which
+  # overstates the exempt portion for anyone who also received such benefits.
+  #
   # months_worked is validated (1..12) but proration is inherent to total_basic
-  # (it already reflects months actually worked). CONFIRM the threshold and the
-  # intended proration semantics against BIR guidance.
+  # (it already reflects months actually worked).
   class ThirteenthMonthCalculator < BaseCalculator
     agency "thirteenth_month"
 

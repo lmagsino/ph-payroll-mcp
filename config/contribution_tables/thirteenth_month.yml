@@ -1,8 +1,10 @@
-# 13th-month pay tax-exempt threshold. BEST-EFFORT ₱90,000 — CONFIRM the current
-# figure and effective date against BIR guidance (it has changed historically).
+# Tax-exempt ceiling on 13th-month pay and other benefits: ₱90,000 a year, per RR 11-2018
+# Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)), implementing RA 10963. The ceiling covers the
+# 13th-month pay AND other benefits (Christmas bonus, productivity incentives, gifts)
+# combined. No 2025-2026 RR raising it was found; see docs/VERIFICATION.md.
 agency: thirteenth_month
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "BIR 13th-month tax-exempt threshold (₱90,000) — CONFIRM current figure"
+    source_circular: "BIR Revenue Regulations No. 11-2018, Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)) — ₱90,000 ceiling on 13th-month pay and other benefits"
     data:
       exempt_threshold: "90000"
