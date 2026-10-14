@@ -5,6 +5,7 @@ source "https://rubygems.org"
 ruby "3.3.11"
 
 gem "mcp", "~> 1.7" # official MCP Ruby SDK (Streamable HTTP transport)
+gem "ph_payroll", path: "gem" # the calculator core, published separately
 gem "puma"          # app server (dev + Render)
 gem "rack-cors"     # MCP clients call cross-origin
 gem "rackup"        # Rack 3 CLI
