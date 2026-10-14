@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Payroll
+module PhPayroll
   # Base for every domain error. All raise-with-a-clear-message errors in the
   # payroll layer inherit this so callers (and the MCP adapters) can rescue one type.
   class Error < StandardError; end

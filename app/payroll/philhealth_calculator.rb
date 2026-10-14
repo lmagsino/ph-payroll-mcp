@@ -2,7 +2,7 @@
 
 require_relative "base_calculator"
 
-module Payroll
+module PhPayroll
   # PhilHealth premium: a flat rate of monthly basic income within a floor/ceiling,
   # split 50/50 between employee and employer.
   #

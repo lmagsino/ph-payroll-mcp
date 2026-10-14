@@ -2,7 +2,7 @@
 
 require_relative "base_calculator"
 
-module Payroll
+module PhPayroll
   # 13th-month pay: total basic salary earned in the year / 12, with the portion up
   # to the tax-exempt threshold exempt and the excess taxable.
   #

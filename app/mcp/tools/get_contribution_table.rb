@@ -23,7 +23,7 @@ module Tools
     class << self
       def call(table:, as_of: nil)
         domain do
-          entry = Payroll::RateTables.for(table, as_of: as_of || Date.today)
+          entry = PhPayroll::RateTables.for(table, as_of: as_of || Date.today)
           {
             agency: entry.agency,
             effective_date: entry.effective_date,

@@ -4,7 +4,7 @@ require "bigdecimal"
 
 # Golden values computed from the monthly RWT formula (base + rate*(income - over))
 # using the TRAIN Phase-2 rows — not read from the YAML.
-RSpec.describe Payroll::WithholdingTaxCalculator do
+RSpec.describe PhPayroll::WithholdingTaxCalculator do
   subject(:calc) { described_class.new }
 
   def tax(income) = calc.call(monthly_taxable_income: income).amounts[:withholding_tax]
@@ -35,7 +35,7 @@ RSpec.describe Payroll::WithholdingTaxCalculator do
   end
 
   it "rejects an unsupported pay_period and negative income" do
-    expect { calc.call(monthly_taxable_income: 30_000, pay_period: "weekly") }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(monthly_taxable_income: -1) }.to raise_error(Payroll::InvalidInput)
+    expect { calc.call(monthly_taxable_income: 30_000, pay_period: "weekly") }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(monthly_taxable_income: -1) }.to raise_error(PhPayroll::InvalidInput)
   end
 end

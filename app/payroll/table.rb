@@ -3,7 +3,7 @@
 require "bigdecimal"
 require "date"
 
-module Payroll
+module PhPayroll
   # One versioned rate table entry: an agency's rules effective from a given date,
   # with the citation and the raw data map. Frozen value object.
   #

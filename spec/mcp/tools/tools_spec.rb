@@ -94,7 +94,7 @@ RSpec.describe "MCP tool adapters" do
 
     it "constrains member_type and table to their enums" do
       expect(Tools::ComputeNetPay.input_schema.to_h.dig(:properties, :member_type, :enum))
-        .to eq(Payroll::SssCalculator::MEMBER_TYPES)
+        .to eq(PhPayroll::SssCalculator::MEMBER_TYPES)
       expect(Tools::GetContributionTable.input_schema.to_h.dig(:properties, :table, :enum))
         .to contain_exactly("sss", "philhealth", "pagibig", "withholding_tax", "thirteenth_month")
     end

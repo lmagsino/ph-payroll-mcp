@@ -6,7 +6,7 @@ require "bigdecimal"
 # rates), reconciled: taxable = gross - mandatory EE contributions; net = gross -
 # contributions - withholding - other. Values move if the underlying rates change, but
 # the composition logic (pre-tax contributions, reconciliation) is pinned here.
-RSpec.describe Payroll::NetPayCalculator do
+RSpec.describe PhPayroll::NetPayCalculator do
   subject(:calc) { described_class.new }
 
   let(:result) { calc.call(gross_monthly_salary: 30_000, member_type: "employed") }
@@ -49,9 +49,9 @@ RSpec.describe Payroll::NetPayCalculator do
   end
 
   it "rejects invalid input" do
-    expect { calc.call(gross_monthly_salary: 30_000, member_type: "gsis") }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(gross_monthly_salary: -1, member_type: "employed") }.to raise_error(Payroll::InvalidInput)
+    expect { calc.call(gross_monthly_salary: 30_000, member_type: "gsis") }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(gross_monthly_salary: -1, member_type: "employed") }.to raise_error(PhPayroll::InvalidInput)
     expect { calc.call(gross_monthly_salary: 30_000, member_type: "employed", other_deductions: -5) }
-      .to raise_error(Payroll::InvalidInput)
+      .to raise_error(PhPayroll::InvalidInput)
   end
 end

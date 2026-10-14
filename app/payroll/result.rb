@@ -3,7 +3,7 @@
 require "bigdecimal"
 require "date"
 
-module Payroll
+module PhPayroll
   # Immutable result of a calculation. The ONE place the citation contract lives:
   # every calculation returns amounts alongside the effective_date and
   # source_circular of the rate table used, so no number ever ships uncited.

@@ -13,7 +13,7 @@ module Tools
     input_schema(
       properties: {
         gross_monthly_salary: MONEY.merge(description: "Gross monthly salary in PHP"),
-        member_type: { type: "string", enum: Payroll::SssCalculator::MEMBER_TYPES, description: "SSS member type" },
+        member_type: { type: "string", enum: PhPayroll::SssCalculator::MEMBER_TYPES, description: "SSS member type" },
         other_deductions: MONEY.merge(default: 0, description: "Other monthly deductions in PHP")
       },
       required: %w[gross_monthly_salary member_type],
@@ -23,7 +23,7 @@ module Tools
     class << self
       def call(gross_monthly_salary:, member_type:, other_deductions: 0)
         domain do
-          Payroll::NetPayCalculator.new.call(
+          PhPayroll::NetPayCalculator.new.call(
             gross_monthly_salary: gross_monthly_salary,
             member_type: member_type,
             other_deductions: other_deductions

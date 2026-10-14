@@ -12,7 +12,7 @@ module Tools
     input_schema(
       properties: {
         monthly_salary: MONEY.merge(description: "Monthly salary in PHP"),
-        member_type: { type: "string", enum: Payroll::SssCalculator::MEMBER_TYPES, description: "SSS member type" }
+        member_type: { type: "string", enum: PhPayroll::SssCalculator::MEMBER_TYPES, description: "SSS member type" }
       },
       required: %w[monthly_salary member_type],
       additionalProperties: false
@@ -20,7 +20,7 @@ module Tools
 
     class << self
       def call(monthly_salary:, member_type:)
-        domain { Payroll::SssCalculator.new.call(monthly_salary: monthly_salary, member_type: member_type).to_h }
+        domain { PhPayroll::SssCalculator.new.call(monthly_salary: monthly_salary, member_type: member_type).to_h }
       end
     end
   end

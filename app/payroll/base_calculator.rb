@@ -6,7 +6,7 @@ require_relative "errors"
 require_relative "result"
 require_relative "rate_tables"
 
-module Payroll
+module PhPayroll
   # Abstract base for every agency calculator. Subclasses declare their agency and
   # implement #compute; the base handles the cross-cutting mechanics so tools stay
   # thin and the math stays DRY:
@@ -18,7 +18,7 @@ module Payroll
   #   end
   #
   #   SssCalculator.new.call(monthly_salary: 30_000, member_type: "employed")
-  #     #=> Payroll::Result stamped with the table's effective_date + source_circular
+  #     #=> PhPayroll::Result stamped with the table's effective_date + source_circular
   #
   # Guarantees by construction: the right table is fetched by effective_date, input
   # is validated before compute, and the result carries the citation.

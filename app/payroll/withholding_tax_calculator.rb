@@ -2,7 +2,7 @@
 
 require_relative "base_calculator"
 
-module Payroll
+module PhPayroll
   # BIR withholding tax using the period-based Revised Withholding Tax Table
   # (eng-review D8) — NOT the annual TRAIN brackets. v1 supports the monthly column.
   #

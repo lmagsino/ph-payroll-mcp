@@ -2,7 +2,7 @@
 
 require_relative "base_calculator"
 
-module Payroll
+module PhPayroll
   # SSS contribution. Not a linear rate — a stepped Monthly Salary Credit (MSC)
   # schedule, plus the WISP/MPF provident-fund layer on the MSC portion above the
   # WISP threshold (eng-review D9), plus a flat EC contribution by MSC band.

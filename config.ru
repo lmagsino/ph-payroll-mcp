@@ -8,7 +8,7 @@ require_relative "app/mcp/tools"
 
 # Fail fast at boot if any rate table is malformed (missing citation, bad shape).
 # Same validation runs in CI via bin/validate_tables.
-Payroll::RateTables.load!
+PhPayroll::RateTables.load!
 
 # Cross-origin: MCP clients (Claude/ChatGPT connectors, IDEs) call from other origins.
 # Public read-only compute API, no auth — allow all origins (see README disclaimer).

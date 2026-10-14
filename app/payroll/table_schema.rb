@@ -3,7 +3,7 @@
 require "bigdecimal"
 require_relative "errors"
 
-module Payroll
+module PhPayroll
   # Validates the shape of a rate Table. Runs at boot (via RateTables.load!) so a
   # bad table never serves traffic, AND in CI (via bin/validate_tables) so a bad
   # data PR never merges — same code, two entry points.
@@ -12,7 +12,7 @@ module Payroll
   # and that scalar data values parse to BigDecimal. Per-agency required-key maps
   # arrive in M2 as each calculator defines the keys it consumes.
   module TableSchema
-    class Invalid < Payroll::Error; end
+    class Invalid < PhPayroll::Error; end
 
     KNOWN_AGENCIES = %w[sss philhealth pagibig withholding_tax thirteenth_month].freeze
 

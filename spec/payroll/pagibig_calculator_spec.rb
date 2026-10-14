@@ -4,7 +4,7 @@ require "bigdecimal"
 
 # Golden values computed independently from the rule (EE 1% at ≤₱1,500 else 2%,
 # ER 2%, monthly ceiling ₱10,000 → max ₱200/₱200), not from the YAML (D11).
-RSpec.describe Payroll::PagibigCalculator do
+RSpec.describe PhPayroll::PagibigCalculator do
   subject(:calc) { described_class.new }
 
   def parts(result)
@@ -47,7 +47,7 @@ RSpec.describe Payroll::PagibigCalculator do
   end
 
   it "rejects invalid input" do
-    expect { calc.call(monthly_salary: -1) }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(monthly_salary: 0) }.to raise_error(Payroll::InvalidInput)
+    expect { calc.call(monthly_salary: -1) }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(monthly_salary: 0) }.to raise_error(PhPayroll::InvalidInput)
   end
 end

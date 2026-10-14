@@ -21,12 +21,12 @@ module Tools
     class << self
       private
 
-      # Run a domain call and return a tool response; translate Payroll errors.
+      # Run a domain call and return a tool response; translate PhPayroll errors.
       def domain
         respond(yield)
-      rescue Payroll::InvalidInput => e
+      rescue PhPayroll::InvalidInput => e
         respond({ error: "invalid_input", message: e.message }, error: true)
-      rescue Payroll::RateTables::MissingRateTable => e
+      rescue PhPayroll::RateTables::MissingRateTable => e
         respond({ error: "no_rate_table", message: e.message }, error: true)
       end
 

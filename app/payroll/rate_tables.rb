@@ -6,7 +6,7 @@ require_relative "errors"
 require_relative "table"
 require_relative "table_schema"
 
-module Payroll
+module PhPayroll
   # Loads versioned rate tables from YAML once at boot and selects the one in
   # effect for a given date.
   #
@@ -18,8 +18,8 @@ module Payroll
   # (MissingRateTable) rather than silently serving the wrong period — the whole
   # point of the project.
   module RateTables
-    class MissingRateTable < Payroll::Error; end
-    class ConfigurationError < Payroll::Error; end
+    class MissingRateTable < PhPayroll::Error; end
+    class ConfigurationError < PhPayroll::Error; end
 
     DEFAULT_DIR = File.expand_path("../../config/contribution_tables", __dir__)
 

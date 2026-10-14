@@ -14,7 +14,7 @@ module Tools
         monthly_taxable_income: MONEY.merge(description: "Monthly taxable income in PHP"),
         pay_period: {
           type: "string",
-          enum: Payroll::WithholdingTaxCalculator::SUPPORTED_PERIODS,
+          enum: PhPayroll::WithholdingTaxCalculator::SUPPORTED_PERIODS,
           default: "monthly",
           description: "Pay period; only monthly is supported in v1"
         }
@@ -26,7 +26,7 @@ module Tools
     class << self
       def call(monthly_taxable_income:, pay_period: "monthly")
         domain do
-          Payroll::WithholdingTaxCalculator.new
+          PhPayroll::WithholdingTaxCalculator.new
                                            .call(monthly_taxable_income: monthly_taxable_income, pay_period: pay_period)
                                            .to_h
         end

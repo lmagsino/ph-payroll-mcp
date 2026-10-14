@@ -2,7 +2,7 @@
 
 require_relative "base_calculator"
 
-module Payroll
+module PhPayroll
   # Pag-IBIG (HDMF) contribution. Employee rate depends on a monthly-comp threshold;
   # the employer rate is flat. The contribution base is capped at the monthly ceiling
   # (so contributions max out at ceiling * rate).

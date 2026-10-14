@@ -3,7 +3,7 @@
 require "bigdecimal"
 require "date"
 
-RSpec.describe Payroll::Result do
+RSpec.describe PhPayroll::Result do
   let(:amounts) { { employee_share: BigDecimal("1234.565"), employer_share: BigDecimal("1234.565") } }
   let(:date) { Date.new(2026, 1, 1) }
 

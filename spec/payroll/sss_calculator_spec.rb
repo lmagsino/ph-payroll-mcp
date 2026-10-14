@@ -7,7 +7,7 @@ require "bigdecimal"
 # self/vol/ofw pay the full 15%, self-employed also pay EC) — not read from the YAML.
 # The employed figures, the OFW figure and the self-employed MSC ₱25,000 figure also
 # appear verbatim in the tables of SSS Circulars 2024-006, 2024-010 and 2024-008.
-RSpec.describe Payroll::SssCalculator do
+RSpec.describe PhPayroll::SssCalculator do
   subject(:calc) { described_class.new }
 
   def a(result) = result.amounts
@@ -83,7 +83,7 @@ RSpec.describe Payroll::SssCalculator do
   end
 
   it "rejects invalid input" do
-    expect { calc.call(monthly_salary: 25_000, member_type: "gsis") }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(monthly_salary: -1, member_type: "employed") }.to raise_error(Payroll::InvalidInput)
+    expect { calc.call(monthly_salary: 25_000, member_type: "gsis") }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(monthly_salary: -1, member_type: "employed") }.to raise_error(PhPayroll::InvalidInput)
   end
 end

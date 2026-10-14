@@ -17,7 +17,7 @@ module Tools
 
     class << self
       def call(monthly_salary:)
-        domain { Payroll::PagibigCalculator.new.call(monthly_salary: monthly_salary).to_h }
+        domain { PhPayroll::PagibigCalculator.new.call(monthly_salary: monthly_salary).to_h }
       end
     end
   end

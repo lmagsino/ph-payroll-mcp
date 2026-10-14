@@ -5,7 +5,7 @@ require "bigdecimal"
 # Golden values are computed independently from the rule (5% of clamped monthly basic,
 # split 50/50, floor ₱10,000 / ceiling ₱100,000) — NOT read back from the YAML — so a
 # transcription error in the rate table would fail these tests (eng-review D11).
-RSpec.describe Payroll::PhilhealthCalculator do
+RSpec.describe PhPayroll::PhilhealthCalculator do
   subject(:calc) { described_class.new }
 
   def premium(result) = result.amounts[:premium]
@@ -44,8 +44,8 @@ RSpec.describe Payroll::PhilhealthCalculator do
   end
 
   it "rejects invalid input" do
-    expect { calc.call(monthly_salary: -5_000) }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(monthly_salary: 0) }.to raise_error(Payroll::InvalidInput)
-    expect { calc.call(monthly_salary: "abc") }.to raise_error(Payroll::InvalidInput)
+    expect { calc.call(monthly_salary: -5_000) }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(monthly_salary: 0) }.to raise_error(PhPayroll::InvalidInput)
+    expect { calc.call(monthly_salary: "abc") }.to raise_error(PhPayroll::InvalidInput)
   end
 end

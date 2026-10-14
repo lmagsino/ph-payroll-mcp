@@ -21,7 +21,7 @@ module Tools
     class << self
       def call(total_basic_salary_earned_this_year:, months_worked:)
         domain do
-          Payroll::ThirteenthMonthCalculator.new.call(
+          PhPayroll::ThirteenthMonthCalculator.new.call(
             total_basic_salary_earned_this_year: total_basic_salary_earned_this_year,
             months_worked: months_worked
           ).to_h

@@ -2,16 +2,16 @@
 
 require "date"
 
-RSpec.describe Payroll::TableSchema do
+RSpec.describe PhPayroll::TableSchema do
   # Default data satisfies philhealth's required keys (rate/floor/ceiling).
   def table(agency: "philhealth", effective_date: Date.new(2026, 1, 1), source_circular: "TEST",
             data: { "rate" => "0.05", "floor" => "10000", "ceiling" => "100000" })
-    Payroll::Table.new(agency: agency, effective_date: effective_date,
+    PhPayroll::Table.new(agency: agency, effective_date: effective_date,
                        source_circular: source_circular, data: data)
   end
 
   it "passes a well-formed table" do
-    expect(described_class.validate!(table)).to be_a(Payroll::Table)
+    expect(described_class.validate!(table)).to be_a(PhPayroll::Table)
   end
 
   it "rejects an unknown agency" do

@@ -3,7 +3,7 @@
 require "bigdecimal"
 require "date"
 
-RSpec.describe Payroll::BaseCalculator do
+RSpec.describe PhPayroll::BaseCalculator do
   # Concrete subclass for exercising the base mechanics.
   let(:calculator_class) do
     Class.new(described_class) do
@@ -24,19 +24,19 @@ RSpec.describe Payroll::BaseCalculator do
 
   let(:calc) { calculator_class.new }
   let(:table) do
-    Payroll::Table.new(
+    PhPayroll::Table.new(
       agency: "philhealth", effective_date: Date.new(2026, 1, 1),
       source_circular: "TEST 2026", data: { "rate" => "0.05", "floor" => "10000", "ceiling" => "100000" }
     )
   end
 
   describe "#call" do
-    before { allow(Payroll::RateTables).to receive(:for).with("philhealth", as_of: kind_of(Date)).and_return(table) }
+    before { allow(PhPayroll::RateTables).to receive(:for).with("philhealth", as_of: kind_of(Date)).and_return(table) }
 
     it "returns a Result stamped with the table's citation" do
       result = calc.call(monthly_salary: 30_000)
 
-      expect(result).to be_a(Payroll::Result)
+      expect(result).to be_a(PhPayroll::Result)
       expect(result.source_circular).to eq("TEST 2026")
       expect(result.effective_date).to eq(Date.new(2026, 1, 1))
       expect(result.amounts[:premium]).to eq(BigDecimal("1500.00")) # 30_000 * 0.05
@@ -47,14 +47,14 @@ RSpec.describe Payroll::BaseCalculator do
     end
 
     it "rejects invalid input before computing" do
-      expect { calc.call(monthly_salary: -5000) }.to raise_error(Payroll::InvalidInput, /greater than zero/)
+      expect { calc.call(monthly_salary: -5000) }.to raise_error(PhPayroll::InvalidInput, /greater than zero/)
     end
   end
 
   describe "an unimplemented subclass" do
     it "raises NotImplementedError from #compute" do
       bare = Class.new(described_class) { agency "sss" }.new
-      allow(Payroll::RateTables).to receive(:for).and_return(table)
+      allow(PhPayroll::RateTables).to receive(:for).and_return(table)
       expect { bare.call }.to raise_error(NotImplementedError, /must implement #compute/)
     end
   end
@@ -67,10 +67,10 @@ RSpec.describe Payroll::BaseCalculator do
       end
 
       it "raises on non-numeric string, nil, and non-finite float" do
-        expect { calc.send(:bd, "abc") }.to raise_error(Payroll::InvalidInput)
-        expect { calc.send(:bd, nil) }.to raise_error(Payroll::InvalidInput)
-        expect { calc.send(:bd, Float::INFINITY) }.to raise_error(Payroll::InvalidInput)
-        expect { calc.send(:bd, (0.0 / 0.0)) }.to raise_error(Payroll::InvalidInput)
+        expect { calc.send(:bd, "abc") }.to raise_error(PhPayroll::InvalidInput)
+        expect { calc.send(:bd, nil) }.to raise_error(PhPayroll::InvalidInput)
+        expect { calc.send(:bd, Float::INFINITY) }.to raise_error(PhPayroll::InvalidInput)
+        expect { calc.send(:bd, (0.0 / 0.0)) }.to raise_error(PhPayroll::InvalidInput)
       end
     end
 
@@ -88,14 +88,14 @@ RSpec.describe Payroll::BaseCalculator do
       end
 
       it "raises when floor exceeds ceiling (misconfigured table)" do
-        expect { calc.send(:clamp, 100, floor: 500, ceiling: 100) }.to raise_error(Payroll::InvalidInput, /floor .* exceeds ceiling/)
+        expect { calc.send(:clamp, 100, floor: 500, ceiling: 100) }.to raise_error(PhPayroll::InvalidInput, /floor .* exceeds ceiling/)
       end
     end
 
     describe "#validate_positive_finite!" do
       it "raises on zero and negative" do
-        expect { calc.send(:validate_positive_finite!, 0, field: "x") }.to raise_error(Payroll::InvalidInput)
-        expect { calc.send(:validate_positive_finite!, -1, field: "x") }.to raise_error(Payroll::InvalidInput)
+        expect { calc.send(:validate_positive_finite!, 0, field: "x") }.to raise_error(PhPayroll::InvalidInput)
+        expect { calc.send(:validate_positive_finite!, -1, field: "x") }.to raise_error(PhPayroll::InvalidInput)
       end
     end
   end

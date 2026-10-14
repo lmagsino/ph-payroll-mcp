@@ -8,7 +8,7 @@ require_relative "philhealth_calculator"
 require_relative "pagibig_calculator"
 require_relative "withholding_tax_calculator"
 
-module Payroll
+module PhPayroll
   # Composite: a full monthly payslip, gross to net. Calls the four component
   # calculators directly (eng-review D1) and derives the withholding correctly —
   # the one real piece of composite math: mandatory contributions are pre-tax, so

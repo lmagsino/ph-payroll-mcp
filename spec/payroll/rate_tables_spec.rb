@@ -2,7 +2,7 @@
 
 require "date"
 
-RSpec.describe Payroll::RateTables do
+RSpec.describe PhPayroll::RateTables do
   fixtures = File.expand_path("../fixtures", __dir__)
   valid_dir = File.join(fixtures, "contribution_tables")
   dup_dir = File.join(fixtures, "bad_duplicate")
@@ -38,7 +38,7 @@ RSpec.describe Payroll::RateTables do
 
     it "parses a String as_of and rejects garbage" do
       expect(described_class.for("philhealth", as_of: "2025-06-01").effective_date).to eq(Date.new(2025, 1, 1))
-      expect { described_class.for("philhealth", as_of: "not-a-date") }.to raise_error(Payroll::InvalidInput)
+      expect { described_class.for("philhealth", as_of: "not-a-date") }.to raise_error(PhPayroll::InvalidInput)
     end
   end
 

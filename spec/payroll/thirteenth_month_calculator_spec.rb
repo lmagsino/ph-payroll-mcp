@@ -3,7 +3,7 @@
 require "bigdecimal"
 
 # Golden values computed from the rule (total_basic / 12; exempt up to ₱90,000).
-RSpec.describe Payroll::ThirteenthMonthCalculator do
+RSpec.describe PhPayroll::ThirteenthMonthCalculator do
   subject(:calc) { described_class.new }
 
   def run(total, months = 12) = calc.call(total_basic_salary_earned_this_year: total, months_worked: months)
@@ -33,9 +33,9 @@ RSpec.describe Payroll::ThirteenthMonthCalculator do
   end
 
   it "rejects invalid months_worked and non-positive total" do
-    expect { run(240_000, 0) }.to raise_error(Payroll::InvalidInput)
-    expect { run(240_000, 13) }.to raise_error(Payroll::InvalidInput)
-    expect { run(240_000, 6.5) }.to raise_error(Payroll::InvalidInput)
-    expect { run(-1, 12) }.to raise_error(Payroll::InvalidInput)
+    expect { run(240_000, 0) }.to raise_error(PhPayroll::InvalidInput)
+    expect { run(240_000, 13) }.to raise_error(PhPayroll::InvalidInput)
+    expect { run(240_000, 6.5) }.to raise_error(PhPayroll::InvalidInput)
+    expect { run(-1, 12) }.to raise_error(PhPayroll::InvalidInput)
   end
 end
