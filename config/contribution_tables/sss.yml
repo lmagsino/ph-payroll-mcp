@@ -1,14 +1,15 @@
-# SSS contribution schedule. BEST-EFFORT numbers, flagged CONFIRM — verify the full
-# MSC bracket schedule, the 2026 total rate, the WISP mechanics, and the EC threshold
-# against the primary SSS circular, then record the circular number below.
-#   - rate_total 15% (ER 10% / EE 5%) is the 2025-scheduled rate — CONFIRM for 2026.
-#   - msc_step models uniform ₱500 brackets; CONFIRM the real (partly irregular) ranges.
-#   - MSC floor ₱5,000 / ceiling ₱35,000; OFW floor ₱8,000; WISP above MSC ₱20,000.
-#   - EC: ₱10 below MSC ₱15,000, ₱30 at/above — CONFIRM exact boundary.
+# SSS schedule effective January 2025, still the schedule in force for 2026 (no later
+# contribution-schedule circular on sss.gov.ph as of 2026-10-14). Figures checked row by
+# row against the circular PDFs; see docs/VERIFICATION.md.
+#   - wisp_threshold is the circular's MPF (Mandatory Provident Fund) boundary.
+#   - Brackets are uniform ₱500 MSC steps: compensation MSC−250 … MSC+249.99 maps to MSC.
+#   - ec_threshold is an MSC, not a compensation figure: EC is ₱30 from MSC ₱15,000,
+#     i.e. from compensation ₱14,750. The "₱14,500" seen in secondary sources is the
+#     last MSC that still pays ₱10.
 agency: sss
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "SSS contribution schedule (15%, MSC 5k–35k, WISP >20k) — CONFIRM exact circular no. + schedule"
+    source_circular: "SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025"
     data:
       msc_floor: "5000"
       msc_ceiling: "35000"

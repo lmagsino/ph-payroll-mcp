@@ -13,10 +13,12 @@ module Payroll
   #   employed     → ER/EE split on each portion; EC (employer) flat by MSC band
   #   self/vol/ofw → member pays the full total rate; no employer share, no EC
   #
-  # NOTE: MSC bracketing here rounds to msc_step; the real SSS table has a few
-  # irregular ranges at the extremes. CONFIRM the schedule, the 2026 rate, the WISP
-  # mechanics, and the EC threshold against the SSS circular; expected test values
-  # will move with the verified numbers.
+  # Rounding to msc_step reproduces every row of Circular 2024-006's table, including
+  # "Below 5,250" and "34,750 - Over" (via the clamp).
+  #
+  # Diverges from Circular 2024-008: self-employed members also pay EC themselves
+  # (₱10/₱30 by the same MSC band) on top of the 15%; here they get EC 0. Voluntary
+  # and OFW members pay no EC, which is correct. See docs/VERIFICATION.md.
   class SssCalculator < BaseCalculator
     agency "sss"
 
