@@ -138,11 +138,14 @@ URL, circular number, check date, and whether the source is primary or secondary
 ## Development
 
 ```sh
-bundle exec rspec           # unit, adapter and protocol round-trip specs
+bundle exec rspec           # tool adapter and protocol round-trip specs
+(cd gem && bundle exec rspec)  # calculator specs, in the ph_payroll gem
 bin/validate_tables         # schema-check every rate table (also runs at boot and in CI)
 bin/smoke                   # boot Puma; initialize + tools/list + a net-pay call over POST /mcp
 bin/capture_examples        # regenerate examples/ after a rate change
 ```
+
+Rate updates and releases follow [docs/MAINTAINING.md](docs/MAINTAINING.md).
 
 ## Disclaimer
 
@@ -155,6 +158,7 @@ before relying on it for actual remittance or filing.
 ## Stack
 
 Ruby + Sinatra/Rack + the official [MCP Ruby SDK](https://github.com/modelcontextprotocol/ruby-sdk).
+The calculations live in the [`ph_payroll`](gem/) gem, usable without MCP from plain Ruby.
 Runs locally with `rackup`; optionally deployed on Render's free tier.
 
 ## Author
