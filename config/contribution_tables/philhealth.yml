@@ -1,11 +1,11 @@
-# PhilHealth UHC premium schedule: 5% of monthly basic, floor ₱10,000 (fixed ₱500),
-# ceiling ₱100,000 (fixed ₱5,000), split 50/50 — the final UHC-law step (2024–2026).
-# CONFIRM the exact 2026 PhilHealth advisory/circular number before production and
-# replace the source_circular below with it.
+# PhilHealth premium for direct contributors: 5% of monthly basic salary, floor ₱10,000
+# (₱500), ceiling ₱100,000 (₱5,000), equally shared by employee and employer.
+# Circular 2020-0005's table ends at "2024 to 2025"; no CY 2026 schedule has been issued,
+# and Advisory 2026-0042 (21 Jul 2026) still applies the 5% rate. See docs/VERIFICATION.md.
 agency: philhealth
 tables:
   - effective_date: "2026-01-01"
-    source_circular: "PhilHealth UHC premium schedule (5%, ceiling ₱100,000) — CONFIRM exact 2026 circular no."
+    source_circular: "PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042"
     data:
       rate: "0.05"
       floor: "10000"

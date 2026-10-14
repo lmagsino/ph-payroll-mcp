@@ -24,9 +24,9 @@ module Payroll
       base = clamp(monthly_salary, floor: table.decimal("floor"), ceiling: table.decimal("ceiling"))
       premium = round_centavo(base * table.decimal("rate"))
 
-      # Split 50/50; the employer absorbs any odd centavo (rounded half) and the
-      # employee takes the remainder, so EE + ER == premium. (v1 convention —
-      # confirm against PhilHealth guidance.)
+      # Circular 2020-0005 says only "equally shared"; it sets no centavo rule. The
+      # odd centavo going to the employer is this project's convention, chosen so
+      # EE + ER == premium.
       employer_share = round_centavo(premium / 2)
       employee_share = premium - employer_share
 
