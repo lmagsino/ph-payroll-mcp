@@ -16,7 +16,7 @@ require "json"
 PORT = 9310
 HOST = "127.0.0.1"
 ROOT = File.expand_path("..", __dir__)
-LOG = "/tmp/phmcp-smoke.log"
+LOG = File.join(ROOT, "tmp", "smoke.log")
 
 def health_ok?
   Net::HTTP.get_response(URI("http://#{HOST}:#{PORT}/health")).code == "200"
@@ -45,6 +45,7 @@ def rpc(id, method, params = {})
   parse(post(jsonrpc: "2.0", id: id, method: method, params: params))
 end
 
+Dir.mkdir(File.dirname(LOG)) unless Dir.exist?(File.dirname(LOG))
 pid = Process.spawn(
   { "RACK_ENV" => "production" },
   "bundle", "exec", "puma", "-p", PORT.to_s, "-e", "production",
