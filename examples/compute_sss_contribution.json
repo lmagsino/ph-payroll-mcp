@@ -1,0 +1,43 @@
+{
+  "tool": "compute_sss_contribution",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_sss_contribution",
+      "arguments": {
+        "monthly_salary": 25000,
+        "member_type": "employed"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"msc\":25000.0,\"regular_employee\":1000.0,\"regular_employer\":2000.0,\"wisp_employee\":250.0,\"wisp_employer\":500.0,\"ec_contribution\":30.0,\"employee_share\":1250.0,\"employer_share\":2530.0,\"total\":3780.0,\"effective_date\":\"2026-01-01\",\"source_circular\":\"SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025\",\"as_of\":\"as of 2026-01-01, per SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025\"}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "msc": 25000.0,
+    "regular_employee": 1000.0,
+    "regular_employer": 2000.0,
+    "wisp_employee": 250.0,
+    "wisp_employer": 500.0,
+    "ec_contribution": 30.0,
+    "employee_share": 1250.0,
+    "employer_share": 2530.0,
+    "total": 3780.0,
+    "effective_date": "2026-01-01",
+    "source_circular": "SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025",
+    "as_of": "as of 2026-01-01, per SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025"
+  }
+}

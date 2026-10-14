@@ -1,0 +1,47 @@
+{
+  "tool": "get_contribution_table",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 7,
+    "method": "tools/call",
+    "params": {
+      "name": "get_contribution_table",
+      "arguments": {
+        "table": "sss",
+        "as_of": "2026-06-01"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 7,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"agency\":\"sss\",\"effective_date\":\"2026-01-01\",\"source_circular\":\"SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025\",\"data\":{\"msc_floor\":\"5000\",\"msc_ceiling\":\"35000\",\"msc_step\":\"500\",\"ofw_msc_floor\":\"8000\",\"wisp_threshold\":\"20000\",\"rate_total\":\"0.15\",\"rate_employer\":\"0.10\",\"rate_employee\":\"0.05\",\"ec_low\":\"10\",\"ec_high\":\"30\",\"ec_threshold\":\"15000\"}}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "agency": "sss",
+    "effective_date": "2026-01-01",
+    "source_circular": "SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025",
+    "data": {
+      "msc_floor": "5000",
+      "msc_ceiling": "35000",
+      "msc_step": "500",
+      "ofw_msc_floor": "8000",
+      "wisp_threshold": "20000",
+      "rate_total": "0.15",
+      "rate_employer": "0.10",
+      "rate_employee": "0.05",
+      "ec_low": "10",
+      "ec_high": "30",
+      "ec_threshold": "15000"
+    }
+  }
+}

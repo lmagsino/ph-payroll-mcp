@@ -1,0 +1,36 @@
+{
+  "tool": "compute_pagibig_contribution",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_pagibig_contribution",
+      "arguments": {
+        "monthly_salary": 30000
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"employee_share\":200.0,\"employer_share\":200.0,\"total\":400.0,\"effective_date\":\"2026-01-01\",\"source_circular\":\"HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)\",\"as_of\":\"as of 2026-01-01, per HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)\"}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "employee_share": 200.0,
+    "employer_share": 200.0,
+    "total": 400.0,
+    "effective_date": "2026-01-01",
+    "source_circular": "HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)",
+    "as_of": "as of 2026-01-01, per HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)"
+  }
+}

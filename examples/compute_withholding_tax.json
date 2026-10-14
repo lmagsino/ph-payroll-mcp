@@ -1,0 +1,36 @@
+{
+  "tool": "compute_withholding_tax",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_withholding_tax",
+      "arguments": {
+        "monthly_taxable_income": 30000
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"withholding_tax\":1375.05,\"bracket_floor\":20833.0,\"bracket_rate\":0.15,\"effective_date\":\"2026-01-01\",\"source_circular\":\"BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)\",\"as_of\":\"as of 2026-01-01, per BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)\"}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "withholding_tax": 1375.05,
+    "bracket_floor": 20833.0,
+    "bracket_rate": 0.15,
+    "effective_date": "2026-01-01",
+    "source_circular": "BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)",
+    "as_of": "as of 2026-01-01, per BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "tool": "compute_13th_month_pay",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_13th_month_pay",
+      "arguments": {
+        "total_basic_salary_earned_this_year": 1200000,
+        "months_worked": 12
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 5,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"thirteenth_month_pay\":100000.0,\"tax_exempt_portion\":90000.0,\"taxable_portion\":10000.0,\"effective_date\":\"2026-01-01\",\"source_circular\":\"BIR Revenue Regulations No. 11-2018, Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)) — ₱90,000 ceiling on 13th-month pay and other benefits\",\"as_of\":\"as of 2026-01-01, per BIR Revenue Regulations No. 11-2018, Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)) — ₱90,000 ceiling on 13th-month pay and other benefits\"}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "thirteenth_month_pay": 100000.0,
+    "tax_exempt_portion": 90000.0,
+    "taxable_portion": 10000.0,
+    "effective_date": "2026-01-01",
+    "source_circular": "BIR Revenue Regulations No. 11-2018, Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)) — ₱90,000 ceiling on 13th-month pay and other benefits",
+    "as_of": "as of 2026-01-01, per BIR Revenue Regulations No. 11-2018, Sec. 6 (RR 2-98 Sec. 2.78.1(B)(11)) — ₱90,000 ceiling on 13th-month pay and other benefits"
+  }
+}

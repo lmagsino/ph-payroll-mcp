@@ -1,0 +1,36 @@
+{
+  "tool": "compute_philhealth_contribution",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_philhealth_contribution",
+      "arguments": {
+        "monthly_salary": 30000
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"premium\":1500.0,\"employee_share\":750.0,\"employer_share\":750.0,\"effective_date\":\"2026-01-01\",\"source_circular\":\"PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042\",\"as_of\":\"as of 2026-01-01, per PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042\"}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "premium": 1500.0,
+    "employee_share": 750.0,
+    "employer_share": 750.0,
+    "effective_date": "2026-01-01",
+    "source_circular": "PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042",
+    "as_of": "as of 2026-01-01, per PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042"
+  }
+}

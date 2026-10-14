@@ -1,0 +1,58 @@
+{
+  "tool": "compute_net_pay",
+  "effective_date": "2026-01-01",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "tools/call",
+    "params": {
+      "name": "compute_net_pay",
+      "arguments": {
+        "gross_monthly_salary": 30000,
+        "member_type": "employed"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 6,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"gross\":30000.0,\"sss_employee\":1500.0,\"philhealth_employee\":750.0,\"pagibig_employee\":200.0,\"taxable_income\":27550.0,\"withholding_tax\":1007.55,\"other_deductions\":0.0,\"total_deductions\":3457.55,\"net_pay\":26542.45,\"sources\":{\"sss\":{\"effective_date\":\"2026-01-01\",\"source_circular\":\"SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025\"},\"philhealth\":{\"effective_date\":\"2026-01-01\",\"source_circular\":\"PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042\"},\"pagibig\":{\"effective_date\":\"2026-01-01\",\"source_circular\":\"HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)\"},\"withholding_tax\":{\"effective_date\":\"2026-01-01\",\"source_circular\":\"BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)\"}}}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "decoded_result": {
+    "gross": 30000.0,
+    "sss_employee": 1500.0,
+    "philhealth_employee": 750.0,
+    "pagibig_employee": 200.0,
+    "taxable_income": 27550.0,
+    "withholding_tax": 1007.55,
+    "other_deductions": 0.0,
+    "total_deductions": 3457.55,
+    "net_pay": 26542.45,
+    "sources": {
+      "sss": {
+        "effective_date": "2026-01-01",
+        "source_circular": "SSS Circular No. 2024-006 (employers and employees), with Circulars 2024-008/-009/-010 (self-employed, voluntary, land-based OFW) — schedule effective January 2025"
+      },
+      "philhealth": {
+        "effective_date": "2026-01-01",
+        "source_circular": "PhilHealth Circular No. 2020-0005 (Revision 1), as restated by PhilHealth Advisories No. 2025-0002 and 2026-0042"
+      },
+      "pagibig": {
+        "effective_date": "2026-01-01",
+        "source_circular": "HDMF Circular No. 460 (15 Jan 2024, effective February 2024) — per secondary sources (DBM Circular Letter No. 2024-2)"
+      },
+      "withholding_tax": {
+        "effective_date": "2026-01-01",
+        "source_circular": "BIR Revenue Regulations No. 11-2018, Annex E — Revised Withholding Tax Table effective January 1, 2023 onwards (monthly)"
+      }
+    }
+  }
+}
