@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Loads the domain layer + every MCP tool adapter, and exposes Tools::ALL for
-# registration on the fast-mcp server (config.ru). Require this once.
+# registration on the MCP::Server (config.ru). Require this once.
 require_relative "../payroll"
 require_relative "tools/base_tool"
 require_relative "tools/compute_sss_contribution"

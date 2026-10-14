@@ -10,20 +10,25 @@ module Tools
                 "optional other deductions, and net pay. Every deduction is cited to its " \
                 "source circular under `sources`."
 
-    arguments do
-      required(:gross_monthly_salary).filled.description("Gross monthly salary in PHP (number)")
-      required(:member_type).filled(:string)
-        .description("SSS member type: employed, self_employed, voluntary, ofw")
-      optional(:other_deductions).filled.description("Other monthly deductions in PHP (number), default 0")
-    end
+    input_schema(
+      properties: {
+        gross_monthly_salary: MONEY.merge(description: "Gross monthly salary in PHP"),
+        member_type: { type: "string", enum: Payroll::SssCalculator::MEMBER_TYPES, description: "SSS member type" },
+        other_deductions: MONEY.merge(default: 0, description: "Other monthly deductions in PHP")
+      },
+      required: %w[gross_monthly_salary member_type],
+      additionalProperties: false
+    )
 
-    def call(gross_monthly_salary:, member_type:, other_deductions: 0)
-      domain do
-        Payroll::NetPayCalculator.new.call(
-          gross_monthly_salary: gross_monthly_salary,
-          member_type: member_type,
-          other_deductions: other_deductions
-        )
+    class << self
+      def call(gross_monthly_salary:, member_type:, other_deductions: 0)
+        domain do
+          Payroll::NetPayCalculator.new.call(
+            gross_monthly_salary: gross_monthly_salary,
+            member_type: member_type,
+            other_deductions: other_deductions
+          )
+        end
       end
     end
   end

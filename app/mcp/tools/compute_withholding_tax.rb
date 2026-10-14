@@ -9,16 +9,27 @@ module Tools
                 "income using the period-based Revised Withholding Tax table. Returns the " \
                 "tax, the bracket, the effective date, and the source circular."
 
-    arguments do
-      required(:monthly_taxable_income).filled.description("Monthly taxable income in PHP (number)")
-      optional(:pay_period).filled(:string).description("Pay period; only 'monthly' is supported in v1")
-    end
+    input_schema(
+      properties: {
+        monthly_taxable_income: MONEY.merge(description: "Monthly taxable income in PHP"),
+        pay_period: {
+          type: "string",
+          enum: Payroll::WithholdingTaxCalculator::SUPPORTED_PERIODS,
+          default: "monthly",
+          description: "Pay period; only monthly is supported in v1"
+        }
+      },
+      required: %w[monthly_taxable_income],
+      additionalProperties: false
+    )
 
-    def call(monthly_taxable_income:, pay_period: "monthly")
-      domain do
-        Payroll::WithholdingTaxCalculator.new
-                                         .call(monthly_taxable_income: monthly_taxable_income, pay_period: pay_period)
-                                         .to_h
+    class << self
+      def call(monthly_taxable_income:, pay_period: "monthly")
+        domain do
+          Payroll::WithholdingTaxCalculator.new
+                                           .call(monthly_taxable_income: monthly_taxable_income, pay_period: pay_period)
+                                           .to_h
+        end
       end
     end
   end
