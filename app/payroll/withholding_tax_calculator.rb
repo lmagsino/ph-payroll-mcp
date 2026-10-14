@@ -12,9 +12,6 @@ module Payroll
   # one with the greatest `over` not exceeding the income. The table is continuous
   # (each row's base equals the previous row evaluated at its start), so a value
   # exactly on a boundary yields the same tax under either adjacent row.
-  #
-  # CONFIRM the monthly RWT rows against the current BIR table before production
-  # (the values here are the widely-published TRAIN Phase-2 monthly figures).
   class WithholdingTaxCalculator < BaseCalculator
     agency "withholding_tax"
 
