@@ -10,8 +10,8 @@ require "json_schemer"
 RSpec.describe "MCP tool adapters" do
   def body(response) = JSON.parse(response.content.first[:text])
 
-  it "registers all seven tools" do
-    expect(Tools::ALL.length).to eq(7)
+  it "registers all nine tools" do
+    expect(Tools::ALL.length).to eq(9)
   end
 
   describe "single-calculator tools carry amounts + citation" do
@@ -61,6 +61,48 @@ RSpec.describe "MCP tool adapters" do
     end
   end
 
+  describe "compute_holiday_pay" do
+    it "prices a calendar date and names the holiday and its proclamation" do
+      b = body(Tools::ComputeHolidayPay.call(daily_rate: 800, date: "2026-04-09", overtime_hours: 2))
+      expect(b["day_type"]).to eq("regular_holiday")
+      expect(b["holidays"]).to eq(["Araw ng Kagitingan"])
+      expect(b["holiday_sources"]).to eq(["Proclamation No. 1006"])
+      expect(b["total"]).to eq(2120.0) # 1,600 + 2 x 260
+      expect(b["source_circular"]).to match(/DOLE Handbook/)
+      expect(b["assumptions"]).not_to be_empty
+    end
+
+    it "prices a day type directly, with no holiday named" do
+      b = body(Tools::ComputeHolidayPay.call(daily_rate: 800, day_type: "special_non_working", rest_day: true))
+      expect(b["regular_pay"]).to eq(1200.0)
+      expect(b["holidays"]).to eq([])
+    end
+
+    it "maps a year with no calendar to no_rate_table" do
+      b = body(Tools::ComputeHolidayPay.call(daily_rate: 800, date: "2027-01-01"))
+      expect(b["error"]).to eq("no_rate_table")
+    end
+
+    it "maps a missing date and day type to invalid_input" do
+      b = body(Tools::ComputeHolidayPay.call(daily_rate: 800))
+      expect(b["error"]).to eq("invalid_input")
+    end
+  end
+
+  describe "list_holidays" do
+    it "lists the 2026 calendar with types and proclamations" do
+      b = body(Tools::ListHolidays.call(year: 2026))
+      expect(b["holidays"].length).to eq(21)
+      expect(b["holidays"].first).to eq("date" => "2026-01-01", "day_type" => "regular_holiday",
+                                        "names" => ["New Year's Day"], "sources" => ["Proclamation No. 1006"])
+      expect(b["source_circular"]).to match(/Proclamation No. 1006/)
+    end
+
+    it "maps a year with no calendar to no_rate_table" do
+      expect(body(Tools::ListHolidays.call(year: 2027))["error"]).to eq("no_rate_table")
+    end
+  end
+
   describe "error mapping" do
     it "returns a structured invalid_input error instead of raising" do
       response = Tools::ComputePhilhealthContribution.call(monthly_salary: -5_000)
@@ -77,7 +119,7 @@ RSpec.describe "MCP tool adapters" do
   end
 
   describe "input schemas" do
-    (Tools::ALL - [Tools::GetContributionTable]).each do |tool|
+    (Tools::ALL - [Tools::GetContributionTable, Tools::ListHolidays]).each do |tool|
       it "#{tool.tool_name} types every money field as a plain number" do
         money = tool.input_schema.to_h[:properties].select { |_, prop| prop[:type] == "number" }
 

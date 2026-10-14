@@ -11,6 +11,8 @@ require_relative "tools/compute_withholding_tax"
 require_relative "tools/compute_13th_month_pay"
 require_relative "tools/compute_net_pay"
 require_relative "tools/get_contribution_table"
+require_relative "tools/compute_holiday_pay"
+require_relative "tools/list_holidays"
 
 module Tools
   ALL = [
@@ -20,6 +22,8 @@ module Tools
     ComputeWithholdingTax,
     Compute13thMonthPay,
     ComputeNetPay,
-    GetContributionTable
+    GetContributionTable,
+    ComputeHolidayPay,
+    ListHolidays
   ].freeze
 end
