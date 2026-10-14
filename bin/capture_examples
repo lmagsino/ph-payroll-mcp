@@ -27,7 +27,9 @@ EXAMPLES = {
   "compute_withholding_tax" => { monthly_taxable_income: 30_000 },
   "compute_13th_month_pay" => { total_basic_salary_earned_this_year: 1_200_000, months_worked: 12 },
   "compute_net_pay" => { gross_monthly_salary: 30_000, member_type: "employed" },
-  "get_contribution_table" => { table: "sss", as_of: "2026-06-01" }
+  "get_contribution_table" => { table: "sss", as_of: "2026-06-01" },
+  "compute_holiday_pay" => { daily_rate: 800, date: "2026-04-09", overtime_hours: 2 },
+  "list_holidays" => { year: 2026 }
 }.freeze
 
 def tools_call(id, name, arguments)

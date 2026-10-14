@@ -3,7 +3,7 @@
 
 # End-to-end smoke test: boots the real Puma server and drives it exactly like an MCP
 # client over Streamable HTTP — POST initialize, notifications/initialized, tools/list and
-# a compute_net_pay tools/call to /mcp. Asserts 7 tools and a net_pay figure. Exit 0 = PASS.
+# a compute_net_pay tools/call to /mcp. Asserts 9 tools and a net_pay figure. Exit 0 = PASS.
 #
 # rack-test covers the same exchange in-process (spec/mcp_mount_spec.rb); this proves it
 # against a booted server with the production middleware stack.
@@ -72,7 +72,7 @@ begin
   puts "tools/list      : #{tools.length} tools (#{tools.map { |t| t['name'] }.join(', ')})"
   puts "compute_net_pay : net_pay=#{netpay['net_pay']}, sources=#{(netpay['sources'] || {}).keys.join('/')}"
 
-  ok = notified.code.start_with?("2") && tools.length == 7 && netpay["net_pay"]
+  ok = notified.code.start_with?("2") && tools.length == 9 && netpay["net_pay"]
   puts(ok ? "\nSMOKE PASS ✅" : "\nSMOKE FAIL ❌")
   exit(ok ? 0 : 1)
 ensure
