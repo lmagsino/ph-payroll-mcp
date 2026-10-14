@@ -7,7 +7,8 @@ for the `2026-01-01` effective date.
 **Primary** means the issuing agency's own document, read directly. **Secondary** means
 the figure reached us through someone else's restatement. That can be another
 government body quoting the circular, or a private summary. A secondary row's
-`source_circular` says "per secondary sources".
+`source_circular` says "per secondary sources". **Inferred** means no source states the
+figure; the row says what it was reasoned from, and the YAML header names it.
 
 ## SSS: `gem/data/contribution_tables/sss.yml`
 
@@ -150,6 +151,88 @@ incentives, gifts) combined. The calculator applies all of it to the 13th-month 
 Nothing has raised the ceiling since. RR 29-2025 (22 Dec 2025) raised de minimis
 ceilings only. House Bill 7661, filed Feb 2026, proposes ₱150,000 but is a pending bill,
 not law (per news reports, e.g. diskurso.ph, 10 Feb 2026).
+
+## Premium pay: `gem/data/contribution_tables/premium_pay.yml`
+
+Sources:
+
+- **DOLE-BWC, *Handbook on Workers' Statutory Monetary Benefits*, 2024 Edition**, Part I.A
+  "Guide Computations" (printed pp. 2–3), §§2–5. The latest edition on a DOLE domain:
+  <https://nwpc.dole.gov.ph/wp-content/uploads/2024/11/Workers-Statutory-Monetary-Benefits-Handbook-2024-Edition.pdf>
+- **Labor Code, P.D. 442, as Amended and Renumbered** (DOLE Department Advisory No. 01,
+  s. 2015; DOLE/BWC 2017 edition), Arts. 86, 87, 93, 94. The renumbering left these
+  article numbers unchanged. dole.gov.ph answers 403, so the file was read through its
+  Wayback Machine capture:
+  <http://web.archive.org/web/20230323075542/https://www.dole.gov.ph/php_assets/uploads/2017/11/LaborCodeofthePhilippines20171.pdf>
+- **DOLE Labor Advisory No. 12, s. 2025** (pay rules for all 2026 holidays) and the
+  per-holiday 2026 advisories (01-26, 04-26, 05-26, 09-26, 11-26, 13-26, 16-26). DOLE's
+  sites block automated reads, so these were seen only through news and payroll-firm
+  reports (Grant Thornton PH, GMA News, PMAP). They restate the Handbook's multipliers.
+
+| Key | Figure | Where in the source | Source | Checked | Type |
+|---|---|---|---|---|---|
+| `hours_per_day` | 8 | Art. 87: overtime is "work performed beyond eight hours" | Labor Code | 2026-10-14 | Primary |
+| `overtime_premium_ordinary_day` | 0.25 | §4.C.1 "an additional 25% of the hourly rate on said day"; Art. 87 | Handbook 2024 | 2026-10-14 | Primary |
+| `overtime_premium_premium_day` | 0.30 | §4.C.2–5, guide table (e.g. "2 x 1.3 = 2.6"); Art. 87 "the rate of the first eight hours on a holiday or rest day plus at least thirty percent (30%) thereof" | Handbook 2024, Labor Code | 2026-10-14 | Primary |
+| `night_differential` | 0.10 | §5.C "an additional 10% of the corresponding hourly rate"; guide table ("2 x 1.1 = 2.2"); Art. 86 | Handbook 2024, Labor Code | 2026-10-14 | Primary |
+| `ordinary.worked` / `.worked_rest_day` | 1.00 / 1.30 | Guide table "Ordinary day 1", "Sunday or rest day 1.3"; Art. 93(a) | Handbook 2024 | 2026-10-14 | Primary |
+| `special_working.worked` | 1.00 | §3.C.2 "considered work on an ordinary workday" | Handbook 2024 | 2026-10-14 | Primary |
+| `special_working.worked_rest_day` | 1.30 | Inferred: an ordinary workday that is the rest day takes the rest-day rate | — | 2026-10-14 | Inferred |
+| `special_non_working.worked` / `.worked_rest_day` | 1.30 / 1.50 | §3.D.2–3; guide table; Art. 93(c) | Handbook 2024 | 2026-10-14 | Primary |
+| `special_non_working.unworked` | 0 | §3.D.1 "the 'no work, no pay' principle shall apply unless there is a favorable company policy, practice, or CBA" | Handbook 2024 | 2026-10-14 | Primary |
+| `double_special_non_working.worked` / `.worked_rest_day` | 1.50 / 1.95 | Guide table "Double special (non-working) day 1.5", "… falling on rest day 1.95" | Handbook 2024 | 2026-10-14 | Primary |
+| `regular_holiday.worked` / `.worked_rest_day` | 2.00 / 2.60 | §2.D.2, §3.D.4 "(basic wage x 200% x 130%)"; guide table; Art. 94(b) | Handbook 2024 | 2026-10-14 | Primary |
+| `regular_holiday.unworked` | 1.00 | §2.D "at least 100% … even if he/she did not report for work"; Art. 94(a) | Handbook 2024 | 2026-10-14 | Primary |
+| `regular_holiday.unworked_rest_day` | 1.00 | Not stated by the Handbook; the 2026 advisories' "did not work" rows draw no rest-day distinction | Advisories (news reports) | 2026-10-14 | Inferred |
+| `double_holiday.worked` / `.worked_rest_day` | 3.00 / 3.90 | §2.D.4 "(basic wage x 300%)"; guide table "3.9 or 390%" | Handbook 2024 | 2026-10-14 | Primary |
+| `double_holiday.unworked` | 2.00 | §2.D.3 "the employer shall pay 200%" | Handbook 2024 | 2026-10-14 | Primary |
+| `double_holiday.unworked_rest_day` | 2.00 | Not stated; same reasoning as `regular_holiday.unworked_rest_day` | — | 2026-10-14 | Inferred |
+| every other `unworked` / `unworked_rest_day` | 0 | No premium-pay entitlement for a day not worked (§3.D.1) | Handbook 2024 | 2026-10-14 | Primary |
+
+**Compounding.** Overtime on a rest day, special day or holiday is the day's rate × 1.3
+(regular holiday: 2.0 × 1.3 = 2.6 an hour), not the basic rate + 30%. The night
+differential is 10% of the rate of the hour it applies to (regular holiday night hour:
+2.0 × 1.1 = 2.2; overtime night hour on an ordinary day: 1.25 × 1.1 = 1.375). Both follow
+the Handbook's guide table and Art. 87.
+
+**Handbook defects that do not change a figure.** The §4.C.2–5 formulas drop the "x"
+between the two percentages ("x 200% 130% x"). §2.D.4's prose says 200% for a worked
+double holiday while its formula and the guide table say 300%; 300% is used.
+
+**Eligibility the calculator does not check.** Unworked regular-holiday pay requires the
+employee to have been present or on paid leave the workday before (§2.E), and the
+Maundy Thursday / Good Friday pair is paid only if the employee worked the day before
+the first or worked the first (§2.F). Holiday pay excludes retail and service
+establishments regularly employing fewer than ten workers, managerial employees and
+officers, field personnel, kasambahay, and government employees (§2.B). The MCP tool
+states these as assumptions in every answer.
+
+## Holidays: `gem/data/contribution_tables/holidays.yml`
+
+Sources, all primary text via lawphil (the Official Gazette was not cross-checked):
+
+- **Proclamation No. 1006, s. 2025** (3 Sep 2025), *Declaring the Regular Holidays and
+  Special (Non-Working) Days for the Year 2026*:
+  <https://lawphil.net/executive/proc/proc2025/proc_1006_2025.html>
+- **Proclamation No. 1189, s. 2026** (12 Mar 2026), Eid'l Fitr, Friday 20 March 2026:
+  <https://lawphil.net/executive/proc/proc2026/proc_1189_2026.html>
+- **Proclamation No. 1264, s. 2026** (21 May 2026), Eid'l Adha, Wednesday 27 May 2026:
+  <https://lawphil.net/executive/proc/proc2026/proc_1264_2026.html>
+
+| Entry | Checked | Type |
+|---|---|---|
+| 10 regular holidays, 4 special non-working days, 4 additional special non-working days, 25 Feb special working day | 2026-10-14 | Primary (Proclamation No. 1006, Sec. 1) |
+| 20 Mar regular holiday | 2026-10-14 | Primary (Proclamation No. 1189) |
+| 27 May regular holiday | 2026-10-14 | Primary (Proclamation No. 1264) |
+
+Every date in the YAML matches its proclamation. 2026 keeps the actual dates rather than
+the statutory "Monday nearest" for six holidays, as Proclamation No. 1006 allows. No
+two regular holidays share a date in 2026.
+
+**Left out on purpose:** regional and local proclamations, such as Proclamation No. 1447
+(17 Sep 2026; 16–18 Nov special non-working days in the National Capital Region only).
+Completeness rests on lawphil's 2026 index through Proclamation No. 1454 (24 Sep 2026); a
+nationwide proclamation issued later is not reflected until the next data update.
 
 ## How to re-verify next year
 
