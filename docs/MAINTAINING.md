@@ -30,11 +30,16 @@ A rate change is a **gem patch release** (0.1.0 → 0.1.1). The server picks it 
 
 ## Yearly cadence
 
-A scheduled workflow (`.github/workflows/rate-check.yml`) opens a **"Re-verify <year>
-rates"** issue every 2 January with this checklist. Work it even when nothing changed:
-re-confirm each table, update the check dates in VERIFICATION.md, and say so in the gem
-CHANGELOG ("Rates: re-verified for 2027, no change"). An unchanged year still leaves a
-dated trace.
+A scheduled workflow (`.github/workflows/rate-check.yml`) opens two issues a year.
+
+- **"Re-verify <year> rates"**, every 2 January, with this checklist. Work it even when
+  nothing changed: re-confirm each table, update the check dates in VERIFICATION.md, and
+  say so in the gem CHANGELOG ("Rates: re-verified for 2027, no change"). An unchanged
+  year still leaves a dated trace.
+- **"Load the <next year> holiday calendar"**, every 1 October, by which time the coming
+  year's proclamation is usually out. Until that table is loaded, dates in the new year
+  are refused, not priced as ordinary days. Eid'l Fitr and Eid'l Adha are proclaimed
+  separately during the year, so the issue stays open until both are added.
 
 ## First gem release (one-time, needs the maintainer's rubygems.org account)
 
