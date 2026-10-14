@@ -5,7 +5,8 @@
 # every YAML table; exits non-zero on any problem so a bad data PR never merges.
 # Same validation runs at boot via RateTables.load!.
 
-require_relative "../app/payroll"
+require "bundler/setup"
+require "ph_payroll"
 
 begin
   tables = PhPayroll::RateTables.reload!

@@ -3,7 +3,7 @@
 require "rack/cors"
 require "mcp"
 require_relative "app"
-require_relative "app/payroll"
+require "ph_payroll"
 require_relative "app/mcp/tools"
 
 # Fail fast at boot if any rate table is malformed (missing citation, bad shape).

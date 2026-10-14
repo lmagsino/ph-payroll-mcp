@@ -2,7 +2,7 @@
 
 # Loads the domain layer + every MCP tool adapter, and exposes Tools::ALL for
 # registration on the MCP::Server (config.ru). Require this once.
-require_relative "../payroll"
+require "ph_payroll"
 require_relative "tools/base_tool"
 require_relative "tools/compute_sss_contribution"
 require_relative "tools/compute_philhealth_contribution"
