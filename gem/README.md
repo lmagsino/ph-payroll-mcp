@@ -13,7 +13,7 @@ the MCP server that gives AI assistants these numbers, packaged for plain Ruby.
 gem install ph_payroll
 ```
 
-or in a Gemfile: `gem "ph_payroll"`. Ruby 3.1 or later.
+or in a Gemfile: `gem "ph_payroll"`. Ruby 3.2 or later.
 
 ## Usage
 

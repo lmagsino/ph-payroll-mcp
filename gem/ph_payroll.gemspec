@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
                      "result carries the effective date and the agency circular it came from."
   spec.homepage = "https://github.com/lmagsino/ph-payroll-mcp/tree/main/gem"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 3.2" # Data.define
 
   spec.metadata["source_code_uri"] = "https://github.com/lmagsino/ph-payroll-mcp/tree/main/gem"
   spec.metadata["changelog_uri"] = "https://github.com/lmagsino/ph-payroll-mcp/blob/main/gem/CHANGELOG.md"
